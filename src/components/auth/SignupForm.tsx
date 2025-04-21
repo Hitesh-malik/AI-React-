@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import FormInput from './FormInput';
 import PasswordStrengthMeter from './PasswordStrengthMeter';
-import apiService from '../../api/apiService';
+import { useAuth } from '../../context/AuthContext';
 
 interface SignupFormProps {
   onSubmit: (formData: {
@@ -23,6 +23,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
   generalError 
 }) => {
   const navigate = useNavigate();
+  const { signup } = useAuth();
   const [username, setUsername] = useState('');
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -94,7 +95,6 @@ const SignupForm: React.FC<SignupFormProps> = ({
     }
 
     setErrors(newErrors);
-    //method to check if there are no errors mean object is empty
     return Object.keys(newErrors).length === 0;
   };
 
@@ -109,24 +109,21 @@ const SignupForm: React.FC<SignupFormProps> = ({
     setErrors({});
 
     try {
-      // Call the API service for signup
-      const response = await apiService.auth.signup({
+      // Use the signup function from AuthContext
+      const result = await signup({
         username,
         fullName,
         email,
         password
       });
       
-      if (response.success && response.data) {
-        // Store the authentication token in localStorage
-        localStorage.setItem('authToken', response.data.token);
-        
+      if (result.success) {
         // Redirect to login page with success message
-        navigate('/home');
+        navigate('/login?registered=true');
       } else {
-        // Handle error response
+        // Handle error
         setErrors({ 
-          general: response.error || 'Failed to create account. Please try again.' 
+          general: result.message || 'Failed to create account. Please try again.' 
         });
       }
     } catch (error) {

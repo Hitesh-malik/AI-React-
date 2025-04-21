@@ -4,12 +4,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import FormInput from './FormInput';
 import BrandLogo from './BrandLogo';
-import apiService from '../../api/apiService';
+import { useAuth } from '../../context/AuthContext';
 
 interface LoginFormProps {
   onSubmit: (formData: {
     username: string;
- 
+    // email: string;
     password: string;
   }) => Promise<void>;
   isSubmitting: boolean;
@@ -22,12 +22,13 @@ const LoginForm: React.FC<LoginFormProps> = ({
   generalError
 }) => {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
+  // const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<{
     username?: string;
-    email?: string;
+    // email?: string;
     password?: string;
     general?: string;
   }>({});
@@ -36,7 +37,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
   const validateForm = () => {
     const newErrors: {
       username?: string;
-      email?: string;
+      // email?: string;
       password?: string;
     } = {};
 
@@ -47,7 +48,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
       newErrors.username = 'Username must be at least 3 characters';
     }
 
-    // // Email validation
+    // Email validation
     // if (!email.trim()) {
     //   newErrors.email = 'Email is required';
     // } else if (!/\S+@\S+\.\S+/.test(email)) {
@@ -76,22 +77,16 @@ const LoginForm: React.FC<LoginFormProps> = ({
     setErrors({});
 
     try {
-      // Call the API service for login
-      const response = await apiService.auth.login({
-        username, 
-        password
-      });
+      // Use the login function from AuthContext
+      const result = await login(username, password, 'defaultThirdArgument');
       
-      if (response.success && response.data) {
-        // Store the authentication token in localStorage
-        localStorage.setItem('authToken', response.data.token);
-        
-        // Redirect to dashboard or home page
-        navigate('/');
+      if (result.success) {
+        // Redirect to dashboard on successful login
+        navigate('/dashboard');
       } else {
-        // Handle error response
+        // Handle error
         setErrors({ 
-          general: response.error || 'Invalid username/email or password'
+          general: result.message || 'Invalid username/email or password'
         });
       }
     } catch (error) {
