@@ -15,7 +15,7 @@ const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { theme } = useTheme();
   const { isAuthenticated, user } = useAuth();
-  
+  console.log(isAuthenticated,"isAuthenticated");
   // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {

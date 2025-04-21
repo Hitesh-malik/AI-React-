@@ -80,7 +80,9 @@ const apiService = {
    * Authentication methods
    */
   auth: {
-    login: async (data: LoginData): Promise<ApiResponse<{ token: string; user: any }>> => {
+    login: async (data: LoginData): Promise<ApiResponse<{
+      username(username: any): unknown; token: string; user: any 
+}>> => {
       return apiService.fetchAPI(endpoints.auth.login, {
         method: 'POST',
         body: JSON.stringify(data),

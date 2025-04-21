@@ -10,7 +10,6 @@ interface User {
   username: string;
   email: string;
   fullName: string;
-  role: string;
 }
 
 // Define the context type
@@ -31,7 +30,7 @@ const AuthContext = createContext<AuthContextType>({
   isLoading: true,
   login: async () => ({ success: false }),
   signup: async () => ({ success: false }),
-  logout: async () => {},
+  logout: async () => { },
   checkAuthStatus: async () => false,
 });
 
@@ -53,26 +52,26 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, []);
 
   // Login function
-  const login = async (username: string,  password: string) => {
+  const login = async (username: string, password: string) => {
     try {
-      const response = await apiService.auth.login({ username,   password });
-      
+      const response = await apiService.auth.login({ username, password });
+
       if (response.success && response.data) {
-        authUtils.setToken(response.data.token);
-        authUtils.setUser(response.data.user);
-        setUser(response.data.user);
+        authUtils.setToken(response?.data?.token);
+        authUtils.setUser(response?.data?.username);
+        setUser(response?.data?.username);
         setIsAuthenticated(true);
         return { success: true };
       } else {
-        return { 
-          success: false, 
-          message: response.error || 'Invalid credentials' 
+        return {
+          success: false,
+          message: response.error || 'Invalid credentials'
         };
       }
     } catch (error) {
-      return { 
-        success: false, 
-        message: 'An unexpected error occurred' 
+      return {
+        success: false,
+        message: 'An unexpected error occurred'
       };
     }
   };
@@ -81,24 +80,24 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const signup = async (userData: { username: string; fullName: string; email: string; password: string }) => {
     try {
       const response = await apiService.auth.signup(userData);
-      
+
       if (response.success && response.data) {
         authUtils.setToken(response?.data?.token);
         authUtils.setUser(response?.data?.username);
-        setUser(response.data.user);
+        setUser(response?.data?.username);
         setIsAuthenticated(true);
         return { success: true };
-        return { success: true };
+
       } else {
-        return { 
-          success: false, 
-          message: response.error || 'Registration failed' 
+        return {
+          success: false,
+          message: response.error || 'Registration failed'
         };
       }
     } catch (error) {
-      return { 
-        success: false, 
-        message: 'An unexpected error occurred' 
+      return {
+        success: false,
+        message: 'An unexpected error occurred'
       };
     }
   };
@@ -118,18 +117,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setUser(null);
       return false;
     }
-
-    const isValid = await authUtils.validateToken();
-    if (isValid) {
-      const currentUser = authUtils.getUser();
-      setUser(currentUser);
-      setIsAuthenticated(true);
-      return true;
-    } else {
-      setIsAuthenticated(false);
-      setUser(null);
-      return false;
-    }
+    const currentUser = authUtils.getUser();
+    setUser(currentUser);
+    setIsAuthenticated(true);
+    return true;
   };
 
   // Create context value

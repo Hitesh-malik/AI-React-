@@ -6,7 +6,6 @@ interface AuthUser {
   username: string;
   email: string;
   fullName: string;
-  role: string;
 }
 
 /**
@@ -79,24 +78,24 @@ const authUtils = {
     if (!this.isLoggedIn()) {
       return false;
     }
-
-    try {
-      // Make a request to validate the token
-      const response = await apiService.user.getProfile();
+    return true; // Placeholder for actual token validation logic
+    // try {
+    //   // Make a request to validate the token
+    //   const response = await apiService.user.getProfile();
       
-      if (response.success && response.data) {
-        // Update user information
-        this.setUser(response.data);
-        return true;
-      } else {
-        // Token is invalid, clear auth data
-        this.logout();
-        return false;
-      }
-    } catch (error) {
-      console.error('Error validating token:', error);
-      return false;
-    }
+    //   if (response.success && response.data) {
+    //     // Update user information
+    //     this.setUser(response.data);
+    //     return true;
+    //   } else {
+    //     // Token is invalid, clear auth data
+    //     this.logout();
+    //     return false;
+    //   }
+    // } catch (error) {
+    //   console.error('Error validating token:', error);
+    //   return false;
+    // }
   },
 
   /**
