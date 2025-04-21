@@ -83,6 +83,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const response = await apiService.auth.signup(userData);
       
       if (response.success && response.data) {
+        authUtils.setToken(response?.data?.token);
+        authUtils.setUser(response?.data?.username);
+        setUser(response.data.user);
+        setIsAuthenticated(true);
+        return { success: true };
         return { success: true };
       } else {
         return { 

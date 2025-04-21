@@ -52,3 +52,14 @@ export default tseslint.config({
   },
 })
 ```
+
+
+
+
+{
+    "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyZWRIYXQxMiIsImlhdCI6MTc0NTIyODkwOSwiZXhwIjoxNzQ1MzE1MzA5fQ.v0M83qxECggKzRqVyB3IrvQPagLp1TIP38eZyXBNEPE",
+    "type": "Bearer",
+    "id": "e5c79f66-402f-4780-82fd-766e3f4ec546",
+    "username": "redHat12",
+    "email": "blackhat12@gmail.com"
+}

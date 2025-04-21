@@ -13,7 +13,7 @@ interface Config {
   const config: Config = {
     // Base URL for API calls
     API_BASE_URL: isDevelopment 
-      ? 'http://localhost:8080/api' // Development API URL
+      ? 'https://thumbnail-aaa-cables-converter.trycloudflare.com/api' // Development API URL
       : 'https://api.telusko.com/api', // Production API URL
     
     // Application information

@@ -81,7 +81,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
     } else if (passwordStrength < 30) {
       newErrors.password = 'Password is too weak';
     }
-
+    console.log(confirmPassword,password ,"SDfsdfds")
     // Confirm password validation
     if (!confirmPassword) {
       newErrors.confirmPassword = 'Please confirm your password';
