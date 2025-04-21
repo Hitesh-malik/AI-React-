@@ -119,7 +119,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
       
       if (result.success) {
         // Redirect to login page with success message
-        navigate('/login?registered=true');
+        navigate('/dashboard');
       } else {
         // Handle error
         setErrors({ 
