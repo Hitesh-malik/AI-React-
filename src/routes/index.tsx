@@ -33,7 +33,7 @@ export const router = createBrowserRouter(
         
         {/* Protected routes */}
         <Route element={<ProtectedRoute />}>
-          <Route path="generate-path" element={<GeneratePath />} />
+          <Route path="generatepath" element={<GeneratePath />} />
           <Route path="dashboard" element={<Dashboard />} />
           {/* Add more protected routes here */}
         </Route>

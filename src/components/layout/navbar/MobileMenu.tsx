@@ -37,7 +37,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
   if (isAuthenticated) {
     links.push({ path: '/dashboard', label: 'Dashboard' });
     links.push({ path: '/profile', label: 'My Profile' });
-    links.push({ path: '/generate-path', label: 'Generate Path' });    
+    links.push({ path: '/generatepath', label: 'Generate Path' });    
   }
   
   // Animation variants

@@ -12,15 +12,15 @@ const NavLinks: React.FC = () => {
   const links = [
     { path: '/', label: 'Home' },
     { path: '/about', label: 'About' },
-    { path: '/Pricing', label: 'Pricing' },
-    { path: '/Contact', label: 'Contact' },
+    { path: '/pricing', label: 'Pricing' },
+    { path: '/contact', label: 'Contact' },
   ];
 
   // Add dashboard link if authenticated
   if (isAuthenticated) {
     links.push({ path: '/dashboard', label: 'Dashboard' });
     links.push({ path: '/profile', label: 'My Profile' });
-    links.push({ path: '/generate-path', label: 'Generate Path' });
+    links.push({ path: '/generatepath', label: 'Generate Path' });
   }
 
   // Define the hover effect for links

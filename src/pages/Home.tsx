@@ -78,7 +78,7 @@ const Home: React.FC = () => {
               className="flex flex-col sm:flex-row justify-center gap-4"
             >
               <Link 
-                to="/generate-path"
+                to="/generatepath"
                 className="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-500 text-white font-medium rounded-xl hover:shadow-lg hover:from-purple-700 hover:to-pink-600 transition-all transform hover:scale-105 shadow-md"
               >
                 Generate Your Path
