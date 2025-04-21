@@ -9,7 +9,7 @@ import apiService from '../../api/apiService';
 interface LoginFormProps {
   onSubmit: (formData: {
     username: string;
-    email: string;
+ 
     password: string;
   }) => Promise<void>;
   isSubmitting: boolean;
@@ -47,12 +47,12 @@ const LoginForm: React.FC<LoginFormProps> = ({
       newErrors.username = 'Username must be at least 3 characters';
     }
 
-    // Email validation
-    if (!email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.email = 'Email is invalid';
-    }
+    // // Email validation
+    // if (!email.trim()) {
+    //   newErrors.email = 'Email is required';
+    // } else if (!/\S+@\S+\.\S+/.test(email)) {
+    //   newErrors.email = 'Email is invalid';
+    // }
 
     // Password validation
     if (!password) {
@@ -78,8 +78,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
     try {
       // Call the API service for login
       const response = await apiService.auth.login({
-        username,
-        email,
+        username, 
         password
       });
       
@@ -168,7 +167,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
           variants={itemVariants}
         />
 
-        <FormInput
+        {/* <FormInput
           id="email"
           label="Email"
           type="email"
@@ -183,7 +182,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
             </svg>
           }
           variants={itemVariants}
-        />
+        /> */}
 
         <FormInput
           id="password"

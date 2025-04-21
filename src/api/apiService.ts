@@ -4,7 +4,7 @@ import endpoints from './endpoints';
 // Types for authentication
 interface LoginData {
   username: string;
-  email: string;
+  // email: string;
   password: string;
 }
 
