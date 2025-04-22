@@ -5,7 +5,7 @@ interface AuthUser {
   id: string;
   username: string;
   email: string;
-  fullName: string;
+
 }
 
 /**

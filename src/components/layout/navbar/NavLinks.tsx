@@ -4,88 +4,78 @@ import { motion } from 'framer-motion';
 import { useTheme } from '../../../hooks/useTheme';
 import { useAuth } from '../../../context/AuthContext';
 
+interface NavLinkItem {
+  name: string;
+  path: string;
+  requiresAuth: boolean;
+}
+
 const NavLinks: React.FC = () => {
   const { theme } = useTheme();
   const { isAuthenticated } = useAuth();
-
-  // Links for the navigation
-  const links = [
-    { path: '/', label: 'Home' },
-    { path: '/about', label: 'About' },
-    { path: '/pricing', label: 'Pricing' },
-    { path: '/contact', label: 'Contact' },
+  
+  // Define navigation links with authentication requirements
+  const navLinks: NavLinkItem[] = [
+    { name: 'Home', path: '/', requiresAuth: false },
+    { name: 'About', path: '/about', requiresAuth: false },
+    { name: 'Contact', path: '/contact', requiresAuth: false },
+    { name: 'Dashboard', path: '/dashboard', requiresAuth: true },
+    { name: 'profile', path: '/profile', requiresAuth: true },
+    {name : "pricing", path: "/pricing", requiresAuth: false},    
+    {name : "GeneratePath", path: "/GeneratePath", requiresAuth: true},
   ];
 
-  // Add dashboard link if authenticated
-  if (isAuthenticated) {
-    links.push({ path: '/dashboard', label: 'Dashboard' });
-    links.push({ path: '/profile', label: 'My Profile' });
-    links.push({ path: '/generatepath', label: 'Generate Path' });
-  }
-
-  // Define the hover effect for links
-  const linkStyle = `relative px-3 py-2 rounded-md transition-colors ${
-    theme === 'dark' 
-      ? 'text-gray-300 hover:text-white' 
-      : 'text-gray-700 hover:text-purple-600'
-  }`;
-
-  // Animation for the links
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { 
-      opacity: 1,
-      transition: { 
-        staggerChildren: 0.1,
-        delayChildren: 0.3
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { y: -20, opacity: 0 },
-    visible: { y: 0, opacity: 1 }
+  // Filter links based on authentication status
+  const filteredLinks = navLinks.filter(link => !link.requiresAuth || isAuthenticated);
+  
+  // Animation variants
+  const linkVariants = {
+    hover: { 
+      y: -2,
+      transition: { type: "spring", stiffness: 300 }
+    },
+    tap: { scale: 0.95 }
   };
 
   return (
-    <motion.div 
-      className="flex items-center space-x-1"
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-    >
-      {links.map((link, index) => (
-        <motion.div key={link.path} variants={itemVariants}>
-          <NavLink 
-            to={link.path} 
+    <div className="flex items-center space-x-1 overflow-x-auto hide-scrollbar">
+      {filteredLinks.map((link) => (
+        <motion.div
+          key={link.path}
+          whileHover="hover"
+          whileTap="tap"
+          variants={linkVariants}
+        >
+          <NavLink
+            to={link.path}
             className={({ isActive }) => `
-              ${linkStyle} 
+              relative px-3 py-2 text-sm font-medium rounded-md
               ${isActive 
-                ? theme === 'dark' 
-                  ? 'bg-gray-800 text-white font-medium' 
-                  : 'bg-gray-100 text-purple-600 font-medium'
-                : ''
+                ? theme === 'dark'
+                  ? 'text-purple-400 bg-gray-800/40'
+                  : 'text-purple-600 bg-gray-100/80'
+                : theme === 'dark'
+                  ? 'text-gray-300 hover:text-white hover:bg-gray-800/40'
+                  : 'text-gray-700 hover:text-purple-600 hover:bg-gray-100/80'
               }
+              transition duration-200 flex items-center
+              group
             `}
           >
-            {({ isActive }) => (
-              <>
-                {link.label}
-                {isActive && (
-                  <motion.div
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-purple-600 to-pink-500"
-                    layoutId="activeNavIndicator"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                )}
-              </>
-            )}
+            <span>{link.name}</span>
+            
+            {/* Animated underline indicator */}
+            <span 
+              className={`
+                absolute bottom-0 left-0 w-full h-0.5 transform origin-left scale-x-0 
+                group-hover:scale-x-100 transition-transform duration-300
+                ${theme === 'dark' ? 'bg-purple-400' : 'bg-purple-600'}
+              `}
+            />
           </NavLink>
         </motion.div>
       ))}
-    </motion.div>
+    </div>
   );
 };
 

@@ -58,8 +58,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
       if (response.success && response.data) {
         authUtils.setToken(response?.data?.token);
-        authUtils.setUser(response?.data?.username);
-        setUser(response?.data?.username);
+        authUtils.setUser(response?.data ?? {});
+        setUser(response?.data ?? {});
         setIsAuthenticated(true);
         return { success: true };
       } else {
@@ -118,6 +118,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       return false;
     }
     const currentUser = authUtils.getUser();
+    console.log('Current User:', currentUser);
     setUser(currentUser);
     setIsAuthenticated(true);
     return true;

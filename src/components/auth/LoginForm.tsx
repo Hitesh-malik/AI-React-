@@ -9,7 +9,7 @@ import { useAuth } from '../../context/AuthContext';
 interface LoginFormProps {
   onSubmit: (formData: {
     username: string;
-    // email: string;
+    email: string;
     password: string;
   }) => Promise<void>;
   isSubmitting: boolean;

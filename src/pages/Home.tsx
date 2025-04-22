@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { useTheme } from '../hooks/useTheme';
 import { useRef } from 'react';
 import Threads from '../components/common/Threads';
+import authUtils from '../utils/authUtils';
 
 const Home: React.FC = () => {
   const { theme } = useTheme();
@@ -268,7 +269,7 @@ const Home: React.FC = () => {
               whileTap={{ scale: 0.98 }}
             >
               <Link 
-                to="/signup"
+                to={authUtils.isLoggedIn() ? "/dashboard" : "/login"}
                 className="inline-block px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-500 text-white font-medium rounded-xl shadow-lg hover:shadow-xl transition-all"
               >
                 Get Started for Free

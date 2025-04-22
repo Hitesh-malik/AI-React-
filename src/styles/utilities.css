@@ -1,0 +1,38 @@
+/* src/styles/utilities.css */
+
+/* Hide scrollbar but allow scrolling */
+@layer utilities {
+    .hide-scrollbar {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+    }
+    
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;  /* Chrome, Safari and Opera */
+    }
+  }
+  
+  /* You can add this to your tailwind.config.js file to extend it:
+  
+  module.exports = {
+    // other config
+    extend: {
+      // other extensions
+    },
+    plugins: [
+      function ({ addUtilities }) {
+        const newUtilities = {
+          '.hide-scrollbar': {
+            '-ms-overflow-style': 'none',
+            'scrollbar-width': 'none',
+            '&::-webkit-scrollbar': {
+              display: 'none',
+            },
+          },
+        }
+        addUtilities(newUtilities)
+      },
+    ],
+  }
+  
+  */

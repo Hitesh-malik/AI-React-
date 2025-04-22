@@ -10,6 +10,7 @@ import ProtectedRoute from '../components/common/ProtectedRoute';
 import { AuthProvider } from '../context/AuthContext';
 import NotFound from '../pages/NotFound';
 import Dashboard from '../pages/Dashboard';
+import Profile from '../pages/Profile';
 
 // Root layout that provides the AuthProvider
 const Root = () => {
@@ -35,6 +36,7 @@ export const router = createBrowserRouter(
         <Route element={<ProtectedRoute />}>
           <Route path="generatepath" element={<GeneratePath />} />
           <Route path="dashboard" element={<Dashboard />} />
+          <Route path="profile" element={<Profile />} />
           {/* Add more protected routes here */}
         </Route>
         
