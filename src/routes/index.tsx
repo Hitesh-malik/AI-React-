@@ -11,6 +11,7 @@ import { AuthProvider } from '../context/AuthContext';
 import NotFound from '../pages/NotFound';
 import Dashboard from '../pages/Dashboard';
 import Profile from '../pages/Profile';
+import Pricing from '../pages/Pricing';
 
 // Root layout that provides the AuthProvider
 const Root = () => {
@@ -31,6 +32,7 @@ export const router = createBrowserRouter(
         <Route path="about" element={<About />} />
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
+        <Route path="pricing" element={<Pricing />} />
         
         {/* Protected routes */}
         <Route element={<ProtectedRoute />}>
