@@ -55,6 +55,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const login = async (username: string, password: string) => {
     try {
       const response = await apiService.auth.login({ username, password });
+      console.log('Login Response:', response);
 
       if (response.success && response.data) {
         authUtils.setToken(response?.data?.token);
@@ -80,14 +81,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const signup = async (userData: { username: string; fullName: string; email: string; password: string }) => {
     try {
       const response = await apiService.auth.signup(userData);
-
+      console.log('singup Response:', response);
       if (response.success && response.data) {
         authUtils.setToken(response?.data?.token);
-        authUtils.setUser(response?.data?.username);
-        setUser(response?.data?.username);
+        authUtils.setUser(response?.data ?? {});
+        setUser(response?.data ?? {});
         setIsAuthenticated(true);
         return { success: true };
-
       } else {
         return {
           success: false,

@@ -13,7 +13,7 @@ interface Config {
   const config: Config = {
     // Base URL for API calls
     API_BASE_URL: isDevelopment 
-      ? 'https://thumbnail-aaa-cables-converter.trycloudflare.com/api' // Development API URL
+      ? 'https://carter-exemption-genes-substantially.trycloudflare.com/api' // Development API URL
       : 'https://api.telusko.com/api', // Production API URL
     
     // Application information

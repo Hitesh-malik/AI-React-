@@ -2,7 +2,6 @@
 import { createBrowserRouter, createRoutesFromElements, Route, Outlet } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
 import Home from '../pages/Home';
-import GeneratePath from '../pages/GeneratePath';
 import About from '../pages/About';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
@@ -12,6 +11,13 @@ import NotFound from '../pages/NotFound';
 import Dashboard from '../pages/Dashboard';
 import Profile from '../pages/Profile';
 import Pricing from '../pages/Pricing';
+
+// Learning path components
+import LearningPath from '../components/learning/LearningPath';
+import Course from '../components/learning/Course';
+import Modules from '../components/learning/Modules';
+import Lessons from '../components/learning/Lessons';
+import LessonContent from '../components/learning/LessonContent';
 
 // Root layout that provides the AuthProvider
 const Root = () => {
@@ -36,10 +42,15 @@ export const router = createBrowserRouter(
         
         {/* Protected routes */}
         <Route element={<ProtectedRoute />}>
-          <Route path="generatepath" element={<GeneratePath />} />
+          <Route path="generatepath" element={<LearningPath />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="profile" element={<Profile />} />
-          {/* Add more protected routes here */}
+          
+          {/* AI Course Learning routes */}
+          <Route path="course/:title" element={<Course />} />
+          <Route path="course/:title/modules" element={<Modules />} />
+          <Route path="course/:title/modules/:moduleId" element={<Lessons />} />
+          <Route path="course/:title/modules/:moduleId/lessons/:lessonId" element={<LessonContent />} />
         </Route>
         
         {/* 404 - Not Found */}
@@ -48,3 +59,5 @@ export const router = createBrowserRouter(
     </Route>
   )
 );
+
+export default router;

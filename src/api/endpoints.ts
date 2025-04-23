@@ -31,6 +31,18 @@ const endpoints = {
     delete: (id: string) => `${config.API_BASE_URL}/learning-paths/${id}`,
     generate: `${config.API_BASE_URL}/learning-paths/generate`,
   },
+
+  // AI course generation endpoints
+  aiCourses: {
+    create: `${config.API_BASE_URL}/courses/create`,
+    getAll: `${config.API_BASE_URL}/courses`,
+    getById: (id: string) => `${config.API_BASE_URL}/courses/${id}`,
+    getModules: (courseId: string) => `${config.API_BASE_URL}/courses/${courseId}/modules`,
+    getLessons: (moduleId: string) => `${config.API_BASE_URL}/courses/modules/${moduleId}/lessons`,
+    getLessonsById: (lessonId: string) => `${config.API_BASE_URL}/courses/lessons/${lessonId}`,
+  },
 };
 
 export default endpoints;
+
+

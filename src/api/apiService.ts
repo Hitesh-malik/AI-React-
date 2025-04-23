@@ -4,10 +4,13 @@ import endpoints from './endpoints';
 // Types for authentication
 interface LoginData {
   username: string;
-  // email: string;
   password: string;
 }
-
+interface RequestHeaders {
+  'Content-Type': string;
+  'Authorization'?: string;
+  [key: string]: string | undefined;
+}
 interface SignupData {
   username: string;
   fullName: string;
@@ -22,6 +25,29 @@ interface ApiResponse<T> {
   error?: string;
 }
 
+// Types for AI Course learning
+interface CourseData {
+  id: string;
+  title: string;
+  description: string;
+  difficultyLevel: number;
+  createdAt: string;
+}
+
+interface ModuleData {
+  id: string;
+  title: string;
+  description: string;
+  sequenceOrder?: number;
+}
+
+interface LessonData {
+  id: string;
+  title: string;
+  content: string;
+  sequenceOrder?: number;
+}
+
 /**
  * Service for handling API requests
  */
@@ -30,7 +56,7 @@ const apiService = {
    * Generic fetch method with error handling
    */
   async fetchAPI<T>(
-    url: string, 
+    url: string,
     options: RequestInit = {}
   ): Promise<ApiResponse<T>> {
     try {
@@ -39,22 +65,22 @@ const apiService = {
         'Content-Type': 'application/json',
         ...options.headers,
       };
-      
+     
       // Get token from localStorage if available
       const token = localStorage.getItem('authToken');
       if (token) {
-        headers['Authorization'] = `Bearer ${token}`;
+        (headers as Record<string, string>)['Authorization'] = `Bearer ${token}`;
       }
-      
+     
       // Make the request
       const response = await fetch(url, {
         ...options,
         headers,
       });
-      
+     
       // Parse the JSON response
       const data = await response.json();
-      
+     
       // Handle non-2xx responses
       if (!response.ok) {
         return {
@@ -62,7 +88,7 @@ const apiService = {
           error: data.message || 'Something went wrong',
         };
       }
-      
+     
       return {
         success: true,
         data,
@@ -75,34 +101,46 @@ const apiService = {
       };
     }
   },
-  
+ 
   /**
    * Authentication methods
    */
   auth: {
-    login: async (data: LoginData): Promise<ApiResponse<{
-      username(username: any): unknown; token: string; user: any 
-}>> => {
+    login: async (data: LoginData): Promise<ApiResponse<{ token: string; user: any }>> => {
       return apiService.fetchAPI(endpoints.auth.login, {
         method: 'POST',
         body: JSON.stringify(data),
       });
     },
-    
+   
     signup: async (data: SignupData): Promise<ApiResponse<{ token: string; user: any }>> => {
       return apiService.fetchAPI(endpoints.auth.signup, {
         method: 'POST',
         body: JSON.stringify(data),
       });
     },
-    
+   
     logout: async (): Promise<ApiResponse<null>> => {
       return apiService.fetchAPI(endpoints.auth.logout, {
         method: 'POST',
       });
     },
+
+    forgotPassword: async (email: string): Promise<ApiResponse<null>> => {
+      return apiService.fetchAPI(endpoints.auth.forgotPassword, {
+        method: 'POST',
+        body: JSON.stringify({ email }),
+      });
+    },
+
+    resetPassword: async (token: string, password: string): Promise<ApiResponse<null>> => {
+      return apiService.fetchAPI(endpoints.auth.resetPassword, {
+        method: 'POST',
+        body: JSON.stringify({ token, password }),
+      });
+    },
   },
-  
+ 
   /**
    * User methods
    */
@@ -110,33 +148,91 @@ const apiService = {
     getProfile: async (): Promise<ApiResponse<any>> => {
       return apiService.fetchAPI(endpoints.user.profile);
     },
-    
+   
     updateProfile: async (data: any): Promise<ApiResponse<any>> => {
       return apiService.fetchAPI(endpoints.user.updateProfile, {
         method: 'PUT',
         body: JSON.stringify(data),
       });
     },
+
+    changePassword: async (currentPassword: string, newPassword: string): Promise<ApiResponse<null>> => {
+      return apiService.fetchAPI(endpoints.user.changePassword, {
+        method: 'POST',
+        body: JSON.stringify({ currentPassword, newPassword }),
+      });
+    },
   },
-  
+
   /**
    * Learning paths methods
    */
   learningPaths: {
-    generatePath: async (requirements: any): Promise<ApiResponse<any>> => {
+    getAll: async (): Promise<ApiResponse<any[]>> => {
+      return apiService.fetchAPI(endpoints.learningPaths.getAll);
+    },
+    
+    getById: async (id: string): Promise<ApiResponse<any>> => {
+      return apiService.fetchAPI(endpoints.learningPaths.getById(id));
+    },
+    
+    create: async (data: any): Promise<ApiResponse<any>> => {
+      return apiService.fetchAPI(endpoints.learningPaths.create, {
+        method: 'POST',
+        body: JSON.stringify(data),
+      });
+    },
+    
+    update: async (id: string, data: any): Promise<ApiResponse<any>> => {
+      return apiService.fetchAPI(endpoints.learningPaths.update(id), {
+        method: 'PUT',
+        body: JSON.stringify(data),
+      });
+    },
+    
+    delete: async (id: string): Promise<ApiResponse<null>> => {
+      return apiService.fetchAPI(endpoints.learningPaths.delete(id), {
+        method: 'DELETE',
+      });
+    },
+    
+    generate: async (requirements: any): Promise<ApiResponse<any>> => {
       return apiService.fetchAPI(endpoints.learningPaths.generate, {
         method: 'POST',
         body: JSON.stringify(requirements),
       });
     },
-    
-    getAllPaths: async (): Promise<ApiResponse<any[]>> => {
-      return apiService.fetchAPI(endpoints.learningPaths.getAll);
+  },
+
+  /**
+   * AI Course Generation methods
+   */
+  aiCourses: {
+    createCourse: async (topic: string): Promise<ApiResponse<CourseData>> => {
+      return apiService.fetchAPI(endpoints.aiCourses.create, {
+        method: 'POST',
+        body: JSON.stringify({ topic }),
+      });
     },
-    
-    getPathById: async (id: string): Promise<ApiResponse<any>> => {
-      return apiService.fetchAPI(endpoints.learningPaths.getById(id));
+
+    getAllCourses: async (): Promise<ApiResponse<CourseData[]>> => {
+      return apiService.fetchAPI(endpoints.aiCourses.getAll);
     },
+
+    getCourseById: async (id: string): Promise<ApiResponse<CourseData>> => {
+      return apiService.fetchAPI(endpoints.aiCourses.getById(id));
+    },
+
+    getModules: async (courseId: string): Promise<ApiResponse<ModuleData[]>> => {
+      return apiService.fetchAPI(endpoints.aiCourses.getModules(courseId));
+    },
+
+    getLessons: async (moduleId: string): Promise<ApiResponse<LessonData[]>> => {
+      return apiService.fetchAPI(endpoints.aiCourses.getLessons(moduleId));
+    },
+    getLessonsById: async (lessonId: string): Promise<ApiResponse<LessonData>> => {
+      return apiService.fetchAPI(endpoints.aiCourses.getLessonsById(lessonId));
+    }
   },
 };
 
