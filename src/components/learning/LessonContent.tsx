@@ -3,25 +3,17 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from '../../hooks/useTheme';
-import ReactMarkdown from 'react-markdown';
+import { Lesson, QuizResult } from '../../types/LessonTypes';
 
-interface Lesson {
-  id: string;
-  title: string;
-  content: string;
-  description?: string;
-  simplifiedContent?: string;
-  examples?: string;
-  quiz?: Array<{
-    id: string;
-    questionText: string;
-    options: string[];
-    correctAnswer: number;
-  }>;
-}
+// Import modular components
+import ContentSection from './ContentSection';
+import QuizSection from './QuizSection';
+import LessonTabs from './LessonTabs';
 
 interface LocationState {
   lesson: Lesson;
+  lessonData?: Lesson[]; // Added to store all lessons from previous page
+  modulesData?: any; // Added to store modules data if available
 }
 
 const LessonContent: React.FC = () => {
@@ -29,18 +21,36 @@ const LessonContent: React.FC = () => {
   const navigate = useNavigate();
   const { title, moduleId, lessonId } = useParams<{ title: string; moduleId: string; lessonId: string }>();
   const [lesson, setLesson] = useState<Lesson | null>(null);
+  const [allLessons, setAllLessons] = useState<Lesson[] | null>(null);
+  const [modulesData, setModulesData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [activeTab, setActiveTab] = useState<string>('content');
   const { theme } = useTheme();
-
+  const [quizResult, setQuizResult] = useState<QuizResult | null>(null);
+  
   useEffect(() => {
-    // Get lesson data from navigation state
-    if (location.state && (location.state as LocationState).lesson) {
-      setLesson((location.state as LocationState).lesson);
+    // Get data from navigation state
+    if (location.state) {
+      const state = location.state as LocationState;
+      
+      // Set the current lesson
+      if (state.lesson) {
+        setLesson(state.lesson);
+      }
+      
+      // Store all lessons from previous page if available
+      if (state.lessonData) {
+        setAllLessons(state.lessonData);
+      }
+      
+      // Store modules data if available
+      if (state.modulesData) {
+        setModulesData(state.modulesData);
+      }
+      
       setLoading(false);
     } else {
       // If someone navigates directly to this URL without the state
-      // You could fetch the lesson data here
       setLoading(false);
     }
   }, [location.state]);
@@ -48,7 +58,39 @@ const LessonContent: React.FC = () => {
   const handleCompleteLesson = () => {
     // Here you would typically make an API call to mark the lesson as completed
     alert("Lesson completed! Great job!");
-    navigate(`/course/${title}/modules/${moduleId}`);
+    
+    // Navigate back to lessons page with the data preserved
+    navigateBackToLessons();
+  };
+
+  // Navigate back to lessons page with data
+  const navigateBackToLessons = () => {
+    // Navigate back to the lessons page with all the data preserved
+    navigate(`/course/${title}/modules/${moduleId}`, {
+      state: { 
+        lessonData: allLessons, // Pass all lessons data back
+        modulesData: modulesData // Pass modules data if available
+      }
+    });
+  };
+
+  const handleQuizComplete = (result: QuizResult) => {
+    setQuizResult(result);
+    
+    // You could make an API call here to save the quiz result
+    console.log("Quiz completed with score:", result);
+  };
+
+  // Generate available tabs based on lesson content
+  const getAvailableTabs = () => {
+    if (!lesson) return [];
+    
+    return [
+      { id: 'content', label: 'Lesson Content', isAvailable: !!lesson.content },
+      { id: 'simplified', label: 'Simplified Version', isAvailable: !!lesson.simplifiedContent },
+      { id: 'examples', label: 'Examples', isAvailable: !!lesson.examples },
+      { id: 'quiz', label: 'Quiz', isAvailable: !!lesson.quiz && lesson.quiz.length > 0 }
+    ];
   };
 
   if (loading) {
@@ -71,10 +113,10 @@ const LessonContent: React.FC = () => {
           <div className={`${theme === 'dark' ? 'bg-yellow-900/30 border-yellow-700 text-yellow-200' : 'bg-yellow-100 border-yellow-500 text-yellow-700'} border-l-4 p-4`} role="alert">
             <p>Lesson data not available. Please return to the modules page and try again.</p>
             <button 
-              onClick={() => navigate(`/course/${title}/modules/${moduleId}`)}
+              onClick={navigateBackToLessons}
               className={`mt-2 ${theme === 'dark' ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-800'}`}
             >
-              Return to Modules
+              Return to Lessons
             </button>
           </div>
         </div>
@@ -92,7 +134,7 @@ const LessonContent: React.FC = () => {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-6">
           <button 
-            onClick={() => navigate(`/course/${title}/modules/${moduleId}`)}
+            onClick={navigateBackToLessons}
             className={`mb-4 flex items-center ${theme === 'dark' ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-800'}`}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
@@ -109,72 +151,12 @@ const LessonContent: React.FC = () => {
         </div>
 
         {/* Lesson tabs */}
-        <div className={`border-b ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'} mb-6`}>
-          <nav className="flex -mb-px">
-            <button
-              onClick={() => setActiveTab('content')}
-              className={`mr-8 py-4 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'content'
-                  ? theme === 'dark' 
-                    ? 'border-purple-500 text-purple-400' 
-                    : 'border-blue-500 text-blue-600'
-                  : theme === 'dark'
-                    ? 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-            >
-              Lesson Content
-            </button>
-            {lesson.simplifiedContent && (
-              <button
-                onClick={() => setActiveTab('simplified')}
-                className={`mr-8 py-4 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === 'simplified'
-                    ? theme === 'dark' 
-                      ? 'border-purple-500 text-purple-400' 
-                      : 'border-blue-500 text-blue-600'
-                    : theme === 'dark'
-                      ? 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                Simplified Version
-              </button>
-            )}
-            {lesson.examples && (
-              <button
-                onClick={() => setActiveTab('examples')}
-                className={`mr-8 py-4 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === 'examples'
-                    ? theme === 'dark' 
-                      ? 'border-purple-500 text-purple-400' 
-                      : 'border-blue-500 text-blue-600'
-                    : theme === 'dark'
-                      ? 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                Examples
-              </button>
-            )}
-            {lesson.quiz && lesson.quiz.length > 0 && (
-              <button
-                onClick={() => setActiveTab('quiz')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === 'quiz'
-                    ? theme === 'dark' 
-                      ? 'border-purple-500 text-purple-400' 
-                      : 'border-blue-500 text-blue-600'
-                    : theme === 'dark'
-                      ? 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                Quiz
-              </button>
-            )}
-          </nav>
-        </div>
+        <LessonTabs 
+          activeTab={activeTab} 
+          setActiveTab={setActiveTab} 
+          theme={theme}
+          tabs={getAvailableTabs()}
+        />
 
         {/* Lesson content */}
         <motion.div 
@@ -183,71 +165,28 @@ const LessonContent: React.FC = () => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          {activeTab === 'content' && (
-            <div className="p-6">
-              <div className={`prose ${theme === 'dark' ? 'prose-invert' : ''} max-w-none`}>
-                <ReactMarkdown>{lesson.content}</ReactMarkdown>
-              </div>
-            </div>
+          {activeTab === 'content' && lesson.content && (
+            <ContentSection content={lesson.content} theme={theme} />
           )}
           
           {activeTab === 'simplified' && lesson.simplifiedContent && (
-            <div className="p-6">
-              <div className={`prose ${theme === 'dark' ? 'prose-invert' : ''} max-w-none`}>
-                <ReactMarkdown>{lesson.simplifiedContent}</ReactMarkdown>
-              </div>
-            </div>
+            <ContentSection content={lesson.simplifiedContent} theme={theme} />
           )}
           
           {activeTab === 'examples' && lesson.examples && (
-            <div className="p-6">
-              <div className={`prose ${theme === 'dark' ? 'prose-invert' : ''} max-w-none`}>
-                <ReactMarkdown>{lesson.examples}</ReactMarkdown>
-              </div>
-            </div>
+            <ContentSection content={lesson.examples} theme={theme} />
           )}
           
           {activeTab === 'quiz' && lesson.quiz && lesson.quiz.length > 0 && (
             <div className="p-6">
-              <h2 className={`text-xl font-semibold mb-6 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Knowledge Check</h2>
-              <div className="space-y-8">
-                {lesson.quiz.map((question, index) => (
-                  <div key={question.id} className={`${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-50'} p-4 rounded-lg`}>
-                    <h3 className={`text-lg font-medium mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-                      Question {index + 1}: {question.questionText}
-                    </h3>
-                    <div className="space-y-2">
-                      {question.options.map((option, optIndex) => (
-                        <div key={optIndex} className="flex items-center">
-                          <input
-                            type="radio"
-                            id={`${question.id}-${optIndex}`}
-                            name={question.id}
-                            className={`h-4 w-4 ${theme === 'dark' ? 'bg-gray-700 border-gray-600' : 'border-gray-300'} focus:ring-blue-500`}
-                          />
-                          <label 
-                            htmlFor={`${question.id}-${optIndex}`} 
-                            className={`ml-2 block ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}
-                          >
-                            {option}
-                          </label>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-                <div className="mt-6">
-                  <button 
-                    className={`px-4 py-2 rounded-md text-white ${
-                      theme === 'dark' 
-                        ? 'bg-purple-600 hover:bg-purple-700 focus:ring-purple-500' 
-                        : 'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500'
-                    } focus:outline-none focus:ring-2 focus:ring-offset-2`}
-                  >
-                    Submit Answers
-                  </button>
-                </div>
-              </div>
+              <h2 className={`text-xl font-semibold mb-6 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                Knowledge Check
+              </h2>
+              <QuizSection 
+                quiz={lesson.quiz} 
+                theme={theme} 
+                onQuizComplete={handleQuizComplete}
+              />
             </div>
           )}
         </motion.div>
@@ -261,11 +200,11 @@ const LessonContent: React.FC = () => {
         >
           <button 
             onClick={handleCompleteLesson}
-            className={`px-6 py-3 rounded-md text-white flex items-center ${
+            className={`px-6 py-3 rounded-md text-white flex items-center font-medium ${
               theme === 'dark' 
                 ? 'bg-green-600 hover:bg-green-700 focus:ring-green-500' 
                 : 'bg-green-600 hover:bg-green-700 focus:ring-green-500'
-            } focus:outline-none focus:ring-2 focus:ring-offset-2`}
+            } focus:outline-none focus:ring-2 focus:ring-offset-2 shadow-lg`}
           >
             <span>Complete Lesson</span>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">

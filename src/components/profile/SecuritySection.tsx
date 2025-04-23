@@ -409,57 +409,7 @@ const SecuritySection: React.FC = () => {
         </div>
       </motion.section>
       
-      {/* Account Sessions */}
-      <motion.section variants={itemVariants} className="pt-6 mt-6 border-t border-gray-200 dark:border-gray-700">
-        <h3 className="text-lg font-medium mb-2">Active Sessions</h3>
-        <p className={`mb-4 text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
-          Manage your active sessions and sign out from other devices
-        </p>
-        
-        <div className={`rounded-md border ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'}`}>
-          <div className={`p-4 border-b ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'}`}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <div className={`p-2 rounded-full ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100'}`}>
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="font-medium">Current Session</p>
-                  <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
-                    Chrome on Windows • Last active now
-                  </p>
-                </div>
-              </div>
-              <div className="text-sm font-medium text-green-600">Active</div>
-            </div>
-          </div>
-          
-          <div className="p-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <div className={`p-2 rounded-full ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100'}`}>
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M7 2a2 2 0 00-2 2v12a2 2 0 002 2h6a2 2 0 002-2V4a2 2 0 00-2-2H7zm3 14a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="font-medium">Mobile App</p>
-                  <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
-                    iPhone 13 • Last active 2 days ago
-                  </p>
-                </div>
-              </div>
-              <button
-                className={`text-sm font-medium ${theme === 'dark' ? 'text-red-400 hover:text-red-300' : 'text-red-600 hover:text-red-500'}`}
-              >
-                Sign out
-              </button>
-            </div>
-          </div>
-        </div>
-      </motion.section>
+ 
     </motion.div>
   );
 };

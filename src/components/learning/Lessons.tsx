@@ -8,10 +8,11 @@ import apiService from '../../api/apiService';
 interface Lesson {
   id: string;
   title: string;
-  content: string;
+  content?: string;
   description?: string;
   simplifiedContent?: string;
   examples?: string;
+  sequenceOrder: number;
   quiz?: Array<{
     id: string;
     questionText: string;
@@ -20,8 +21,17 @@ interface Lesson {
   }>;
 }
 
+interface ModuleData {
+  id: string;
+  title: string;
+  description: string;
+  sequenceOrder: number;
+  lessons?: Lesson[];
+}
+
 interface LocationState {
   lessonData: Lesson[];
+  modulesData?: ModuleData[]; // Store all modules data if available
 }
 
 const Lessons: React.FC = () => {
@@ -29,14 +39,29 @@ const Lessons: React.FC = () => {
   const navigate = useNavigate();
   const { title, moduleId } = useParams<{ title: string; moduleId: string }>();
   const [lessonData, setLessonData] = useState<Lesson[]>([]);
+  const [modulesData, setModulesData] = useState<ModuleData[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const { theme } = useTheme();
 
   useEffect(() => {
     // Get data from navigation state
-    if (location.state && (location.state as LocationState).lessonData) {
-      setLessonData((location.state as LocationState).lessonData);
+    if (location.state) {
+      const state = location.state as LocationState;
+      
+      if (state.lessonData) {
+        // Sort lessons by sequence order if available
+        const lessons = [...state.lessonData]
+          .sort((a, b) => (a.sequenceOrder || 0) - (b.sequenceOrder || 0));
+        
+        setLessonData(lessons);
+      }
+      
+      // Also store modules data if available for passing back
+      if (state.modulesData) {
+        setModulesData(state.modulesData);
+      }
+      
       setLoading(false);
     } else {
       // If someone navigates directly to this URL without the state
@@ -65,31 +90,56 @@ const Lessons: React.FC = () => {
   };
 
   const handleStartLearning = async (lessonId: string, lesson: Lesson) => {
+    // Since we may not have the detailed lesson content yet,
+    // we still need to make an API call to get the full lesson content
     try {
-      // First, get the detailed lesson data using the API endpoint
       setLoading(true);
+      
+      // If the lesson already has content, we can navigate directly
+      if (lesson.content) {
+        navigate(`/course/${title}/modules/${moduleId}/lessons/${lessonId}`, {
+          state: { 
+            lesson,
+            lessonData: lessonData, // Pass all lessons data for back navigation
+            modulesData: modulesData // Pass modules data if available
+          }
+        });
+        return;
+      }
+      
+      // Otherwise fetch the detailed lesson content
       const response = await apiService.aiCourses.getLessonsById(lessonId);
       
       if (response.success && response.data) {
-        // If we have successful response, use the detailed lesson data from API
-        const detailedLesson = response.data;
-        
         // Navigate to the lesson content page with the detailed lesson data
+        // Also pass along all lessons data for back navigation
         navigate(`/course/${title}/modules/${moduleId}/lessons/${lessonId}`, {
-          state: { lesson: detailedLesson }
+          state: { 
+            lesson: response.data,
+            lessonData: lessonData,
+            modulesData: modulesData
+          }
         });
       } else {
-        // If API call fails, fall back to using the basic lesson data we already have
+        // If API call fails, fall back to using the basic lesson data
         console.warn("Could not fetch detailed lesson data, using basic data:", response.error);
         navigate(`/course/${title}/modules/${moduleId}/lessons/${lessonId}`, {
-          state: { lesson }
+          state: { 
+            lesson,
+            lessonData: lessonData,
+            modulesData: modulesData
+          }
         });
       }
     } catch (error) {
       console.error("Error navigating to lesson:", error);
       // If there's an error, still try to navigate with the basic lesson data
       navigate(`/course/${title}/modules/${moduleId}/lessons/${lessonId}`, {
-        state: { lesson }
+        state: { 
+          lesson,
+          lessonData: lessonData,
+          modulesData: modulesData
+        }
       });
     } finally {
       setLoading(false);
@@ -137,7 +187,7 @@ const Lessons: React.FC = () => {
             Select a lesson to begin learning
           </p>
         </motion.div>
-
+        
         {error && (
           <motion.div 
             className={`mb-6 ${theme === 'dark' ? 'bg-red-900/30 border-red-700 text-red-300' : 'bg-red-100 border-red-500 text-red-700'} border-l-4 p-4`} 

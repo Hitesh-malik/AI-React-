@@ -9,12 +9,12 @@ const Layout: React.FC = () => {
 
   return (
     <div className={`min-h-screen flex flex-col ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-50'} transition-colors duration-200`}>
-      <Navbar />
-      <main className="flex-grow">
-        <Outlet />
-      </main>
-      <Footer />
-    </div>
+    <Navbar />
+    <main className="flex-grow pt-16 md:pt-20">
+      <Outlet />
+    </main>
+    <Footer />
+  </div>
   );
 };
 

@@ -10,8 +10,25 @@ interface CourseData {
   id: string;
   title: string;
   description: string;
-  difficultyLevel: number;
+  difficultyLevel: string | number;
   createdAt: string;
+  aiGenerated?: boolean;
+  modules?: ModuleData[];
+}
+
+interface ModuleData {
+  id: string;
+  title: string;
+  description: string;
+  sequenceOrder: number;
+  lessons?: LessonData[];
+}
+
+interface LessonData {
+  id: string;
+  title: string;
+  sequenceOrder: number;
+  content?: string;
 }
 
 const LearningPath: React.FC = () => {
@@ -58,6 +75,8 @@ const LearningPath: React.FC = () => {
       const response = await apiService.aiCourses.createCourse(selectedSubject);
 
       if (response.success && response.data) {
+        // Store the entire course data including modules and lessons in state
+        // This eliminates the need for additional API calls later
         navigate(`/course/${response.data.title}`, { 
           state: { courseData: response.data } 
         });

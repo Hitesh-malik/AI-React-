@@ -3,14 +3,30 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from '../../hooks/useTheme';
-import apiService from '../../api/apiService';
+
+interface LessonData {
+  id: string;
+  title: string;
+  sequenceOrder: number;
+  content?: string;
+}
+
+interface ModuleData {
+  id: string;
+  title: string;
+  description: string;
+  sequenceOrder: number;
+  lessons?: LessonData[];
+}
 
 interface CourseData {
   id: string;
   title: string;
   description: string;
-  difficultyLevel: number;
+  difficultyLevel: string | number;
   createdAt: string;
+  aiGenerated?: boolean;
+  modules?: ModuleData[];
 }
 
 interface LocationState {
@@ -58,29 +74,17 @@ const Course: React.FC = () => {
     }
   };
 
-  const handleModules = async () => {
-    if (!courseData) return;
+  const handleModules = () => {
+    if (!courseData || !courseData.modules) return;
     
-    try {
-      setLoading(true);
-      setError(null);
-      
-      // Using the aiCourses API service method
-      const response = await apiService.aiCourses.getModules(courseData.id);
-      
-      if (response.success && response.data) {
-        navigate(`/course/${courseData.title}/modules`, { 
-          state: { modulesData: response?.data ?? {}} 
-        });
-      } else {
-        setError(response.error || 'Failed to fetch modules');
-        setLoading(false);
-      }
-    } catch (err) {
-      console.error('Error fetching modules:', err);
-      setError('An unexpected error occurred');
-      setLoading(false);
-    }
+    // No need for API call since we already have the modules data
+    // Just navigate to the modules page with the data we already have
+    navigate(`/course/${courseData.title}/modules`, { 
+      state: { 
+        modulesData: courseData.modules,
+        courseData: courseData // Pass the whole course data in case it's needed
+      } 
+    });
   };
 
   if (loading) {
@@ -140,6 +144,7 @@ const Course: React.FC = () => {
                 Difficulty: {courseData.difficultyLevel}/10
               </span>
               <span className="ml-4">{new Date(courseData.createdAt).toLocaleDateString()}</span>
+              
             </div>
           </div>
           
@@ -152,6 +157,26 @@ const Course: React.FC = () => {
                 {courseData.description}
               </p>
             </motion.div>
+            
+            {courseData.modules && courseData.modules.length > 0 && (
+              <motion.div className="mb-6" variants={itemVariants}>
+                <h2 className={`text-xl font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'} mb-2`}>
+                  Course Modules
+                </h2>
+                <ul className={`list-disc pl-5 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
+                  {courseData.modules.map((module, index) => (
+                    <li key={module.id} className="mb-1">
+                      <span className="font-medium">{module.title}</span>
+                      {module.lessons && (
+                        <span className="ml-2 text-sm text-gray-500">
+                          ({module.lessons.length} lessons)
+                        </span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            )}
             
             <motion.div 
               className="mt-6 flex space-x-4"
@@ -166,6 +191,7 @@ const Course: React.FC = () => {
                 onClick={handleModules}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.98 }}
+                disabled={!courseData.modules || courseData.modules.length === 0}
               >
                 Start Learning
               </motion.button>
