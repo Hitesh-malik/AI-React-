@@ -31,7 +31,7 @@ const endpoints = {
     delete: (id: string) => `${config.API_BASE_URL}/learning-paths/${id}`,
     generate: `${config.API_BASE_URL}/learning-paths/generate`,
   },
-
+  
   // AI course generation endpoints
   aiCourses: {
     create: `${config.API_BASE_URL}/courses/create`,
@@ -40,6 +40,8 @@ const endpoints = {
     getModules: (courseId: string) => `${config.API_BASE_URL}/courses/${courseId}/modules`,
     getLessons: (moduleId: string) => `${config.API_BASE_URL}/courses/modules/${moduleId}/lessons`,
     getLessonsById: (lessonId: string) => `${config.API_BASE_URL}/courses/lessons/${lessonId}`,
+    completeLesson: (lessonId: string) => `${config.API_BASE_URL}/courses/lessons/${lessonId}/complete`,
+    userProgress: () =>`${config.API_BASE_URL}/courses/progress`
   },
 };
 

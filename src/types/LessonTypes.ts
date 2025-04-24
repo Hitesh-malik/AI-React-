@@ -30,4 +30,5 @@ export interface QuizQuestion {
     correct: number;
     total: number;
     percentage: number;
+    score:number;
   }

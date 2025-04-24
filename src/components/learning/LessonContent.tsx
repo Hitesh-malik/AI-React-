@@ -4,6 +4,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from '../../hooks/useTheme';
 import { Lesson, QuizResult } from '../../types/LessonTypes';
+import apiService from '../../api/apiService'; // Import the apiService
 
 // Import modular components
 import ContentSection from './ContentSection';
@@ -25,8 +26,10 @@ const LessonContent: React.FC = () => {
   const [modulesData, setModulesData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [activeTab, setActiveTab] = useState<string>('content');
+  const [submitting, setSubmitting] = useState<boolean>(false); // New state for tracking API submission
   const { theme } = useTheme();
   const [quizResult, setQuizResult] = useState<QuizResult | null>(null);
+  const [error, setError] = useState<string | null>(null); // New state for error handling
   
   useEffect(() => {
     // Get data from navigation state
@@ -51,16 +54,66 @@ const LessonContent: React.FC = () => {
       setLoading(false);
     } else {
       // If someone navigates directly to this URL without the state
+      // We should fetch the lesson data directly
+      if (lessonId) {
+        fetchLessonData(lessonId);
+      } else {
+        setLoading(false);
+        setError('Lesson ID not found');
+      }
+    }
+  }, [location.state, lessonId]);
+
+  // Fetch lesson data if navigated directly to URL
+  const fetchLessonData = async (id: string) => {
+    try {
+      const response = await apiService.aiCourses.getLessonsById(id);
+      
+      if (response.success && response.data) {
+        setLesson(response.data);
+      } else {
+        setError(response.error || 'Failed to load lesson data');
+      }
+    } catch (err) {
+      setError('An unexpected error occurred');
+      console.error(err);
+    } finally {
       setLoading(false);
     }
-  }, [location.state]);
+  };
 
-  const handleCompleteLesson = () => {
-    // Here you would typically make an API call to mark the lesson as completed
-    alert("Lesson completed! Great job!");
+  const handleCompleteLesson = async () => {
+    if (!lessonId) {
+      setError('Lesson ID is missing');
+      return;
+    }
+
+    setSubmitting(true);
+    setError(null);
     
-    // Navigate back to lessons page with the data preserved
-    navigateBackToLessons();
+    try {
+      // Call the API to mark the lesson as complete, passing the quiz score if available
+      const response = await apiService.aiCourses.completeLesson(
+        lessonId,
+        quizResult?.score // Pass the quiz score if available
+      );
+      
+      if (response.success) {
+        // Show success message
+        alert("Lesson completed successfully!");
+        
+        // Navigate back to lessons page with the data preserved
+        navigateBackToLessons();
+      } else {
+        // Handle API error
+        setError(response.error || 'Failed to mark lesson as complete');
+      }
+    } catch (err) {
+      setError('An unexpected error occurred');
+      console.error(err);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   // Navigate back to lessons page with data
@@ -77,7 +130,7 @@ const LessonContent: React.FC = () => {
   const handleQuizComplete = (result: QuizResult) => {
     setQuizResult(result);
     
-    // You could make an API call here to save the quiz result
+    // Log the quiz result but don't submit yet - we'll submit when the user completes the lesson
     console.log("Quiz completed with score:", result);
   };
 
@@ -112,6 +165,7 @@ const LessonContent: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className={`${theme === 'dark' ? 'bg-yellow-900/30 border-yellow-700 text-yellow-200' : 'bg-yellow-100 border-yellow-500 text-yellow-700'} border-l-4 p-4`} role="alert">
             <p>Lesson data not available. Please return to the modules page and try again.</p>
+            {error && <p className="mt-2 text-red-500">{error}</p>}
             <button 
               onClick={navigateBackToLessons}
               className={`mt-2 ${theme === 'dark' ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-800'}`}
@@ -149,6 +203,13 @@ const LessonContent: React.FC = () => {
             <p className={`mt-2 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>{lesson.description}</p>
           )}
         </div>
+
+        {/* Display error message if any */}
+        {error && (
+          <div className={`mb-6 ${theme === 'dark' ? 'bg-red-900/30 border-red-700 text-red-200' : 'bg-red-100 border-red-500 text-red-700'} border-l-4 p-4`} role="alert">
+            <p>{error}</p>
+          </div>
+        )}
 
         {/* Lesson tabs */}
         <LessonTabs 
@@ -192,26 +253,51 @@ const LessonContent: React.FC = () => {
         </motion.div>
 
         {/* Complete lesson button */}
-        <motion.div 
-          className="mt-8 flex justify-end"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.5 }}
-        >
-          <button 
-            onClick={handleCompleteLesson}
-            className={`px-6 py-3 rounded-md text-white flex items-center font-medium ${
-              theme === 'dark' 
-                ? 'bg-green-600 hover:bg-green-700 focus:ring-green-500' 
-                : 'bg-green-600 hover:bg-green-700 focus:ring-green-500'
-            } focus:outline-none focus:ring-2 focus:ring-offset-2 shadow-lg`}
-          >
-            <span>Complete Lesson</span>
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+
+       <motion.div 
+  className="mt-8 flex justify-end"
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  transition={{ delay: 0.5, duration: 0.5 }}
+>
+  <button 
+    onClick={!lesson.completed ? handleCompleteLesson : undefined}
+    disabled={submitting || lesson.completed}
+    className={`px-6 py-3 rounded-md text-white flex items-center font-medium shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+      lesson.completed || submitting
+        ? 'opacity-70 cursor-not-allowed bg-green-600'
+        : 'bg-green-600 hover:bg-green-700 focus:ring-green-500'
+    }`}
+  >
+    {submitting ? (
+      <>
+        <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white mr-2"></div>
+        <span>Submitting...</span>
+      </>
+    ) : (
+      <>
+        <span className="flex items-center">
+          {lesson.completed ? "Completed" : "Complete Lesson"}
+          {lesson.completed && (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 ml-2"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                clipRule="evenodd"
+              />
             </svg>
-          </button>
-        </motion.div>
+          )}
+        </span>
+      </>
+    )}
+  </button>
+</motion.div>
+
       </div>
     </motion.div>
   );

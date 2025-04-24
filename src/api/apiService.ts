@@ -232,7 +232,23 @@ const apiService = {
     },
     getLessonsById: async (lessonId: string): Promise<ApiResponse<LessonData>> => {
       return apiService.fetchAPI(endpoints.aiCourses.getLessonsById(lessonId));
-    }
+    },
+    completeLesson: async (lessonId: string, quizScore?: number): Promise<ApiResponse<any>> => {
+      const url = new URL(endpoints.aiCourses.completeLesson(lessonId));
+      
+      // Add quiz score as a query parameter if provided
+      if (quizScore !== undefined) {
+        url.searchParams.append('quizScore', quizScore.toString());
+      }
+      
+      return apiService.fetchAPI(url.toString(), {
+        method: 'POST'
+      });
+    },
+    userProgress: async (): Promise<ApiResponse<LessonData>> => {
+      return apiService.fetchAPI(endpoints.aiCourses.userProgress());
+    },
+    
   },
 };
 

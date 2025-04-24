@@ -1,4 +1,3 @@
-// src/components/learning/Lessons.tsx
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -19,6 +18,19 @@ interface Lesson {
     options: string[];
     correctAnswer: number;
   }>;
+  completed?: boolean; // Added completed status
+}
+
+interface UserProgress {
+  id: string;
+  userId: string;
+  lessonId: string;
+  lessonTitle: string;
+  completed: boolean;
+  quizScore: number | null;
+  timeSpent: number | null;
+  startedAt: string;
+  completedAt: string;
 }
 
 interface ModuleData {
@@ -45,7 +57,10 @@ const Lessons: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [loadingLessonId, setLoadingLessonId] = useState<string | null>(null);
   const [activePreview, setActivePreview] = useState<string | null>(null);
+  const [userProgress, setUserProgress] = useState<UserProgress[]>([]);
+  const [completedLessonsCount, setCompletedLessonsCount] = useState<number>(0);
   const { theme } = useTheme();
+  const [isDataInitialized, setIsDataInitialized] = useState<boolean>(false);
 
   // Get the current module title
   useEffect(() => {
@@ -57,9 +72,10 @@ const Lessons: React.FC = () => {
     }
   }, [moduleId, modulesData]);
 
+  // Initialize data from navigation state
   useEffect(() => {
     // Get data from navigation state
-    if (location.state) {
+    if (location.state && !isDataInitialized) {
       const state = location.state as LocationState;
 
       if (state.lessonData) {
@@ -76,11 +92,51 @@ const Lessons: React.FC = () => {
       }
 
       setLoading(false);
-    } else {
+      setIsDataInitialized(true);
+    } else if (!location.state && !isDataInitialized) {
       // If someone navigates directly to this URL without the state
       setLoading(false);
+      setIsDataInitialized(true);
     }
-  }, [location.state]);
+  }, [location.state, isDataInitialized]);
+
+  // Fetch user progress data
+  useEffect(() => {
+    const fetchUserProgress = async () => {
+      try {
+        const response = await apiService.aiCourses.userProgress();
+
+        if (response.success) {
+          setUserProgress(response.data);
+        }
+      } catch (error) {
+        console.log(error, "error fetching user progress");
+      }
+    };
+
+    if (isDataInitialized) {
+      fetchUserProgress();
+    }
+  }, [isDataInitialized]);
+
+  // Update lessons with completion status when both lessons and user progress are loaded
+  useEffect(() => {
+    if (lessonData.length > 0 && userProgress.length > 0) {
+      const updatedLessonData = lessonData.map(lesson => {
+        const progressEntry = userProgress.find(progress => progress.lessonId === lesson.id);
+        return {
+          ...lesson,
+          completed: progressEntry ? progressEntry.completed : false
+        };
+      });
+      
+      // Count completed lessons
+      const completedCount = updatedLessonData.filter(lesson => lesson.completed).length;
+      
+      setLessonData(updatedLessonData);
+      setCompletedLessonsCount(completedCount);
+    }
+  }, [userProgress]); // Only depend on userProgress, not lessonData
 
   // Animation variants
   const containerVariants = {
@@ -195,6 +251,11 @@ const Lessons: React.FC = () => {
       }
     });
   };
+  
+  // Calculate progress percentage
+  const progressPercentage = lessonData.length > 0 
+    ? Math.round((completedLessonsCount / lessonData.length) * 100) 
+    : 0;
 
   if (loading) {
     return (
@@ -295,14 +356,15 @@ const Lessons: React.FC = () => {
                 </span>
               </div>
               <div className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
-                0/{lessonData.length} completed
+                {completedLessonsCount}/{lessonData.length} completed
               </div>
             </div>
             <div className={`overflow-hidden h-2 mb-4 text-xs flex rounded ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-200'}`}>
               <motion.div
                 className={`shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center ${theme === 'dark' ? 'bg-purple-500' : 'bg-blue-500'}`}
                 initial={{ width: '0%' }}
-                animate={{ width: '0%' }}
+                animate={{ width: `${progressPercentage}%` }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
               ></motion.div>
             </div>
           </div>
@@ -338,25 +400,45 @@ const Lessons: React.FC = () => {
               className={`${theme === 'dark'
                 ? 'bg-gray-800 border-gray-700'
                 : 'bg-white border-gray-200'
-                } rounded-xl shadow-md overflow-hidden border transition-all duration-200`}
+                } rounded-xl shadow-md overflow-hidden border transition-all duration-200 ${
+                  lesson.completed ? 
+                  theme === 'dark' ? 'border-l-4 border-l-green-500' : 'border-l-4 border-l-green-500' 
+                  : ''
+                }`}
               whileHover="hover"
               variants={combinedVariants}
             >
               <div className={`p-5 ${activePreview === lesson.id ? 'border-b border-gray-700' : ''}`}>
                 <div className="flex justify-between items-start">
                   <div className="flex items-start space-x-4">
-                    <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${theme === 'dark'
-                        ? 'bg-purple-900/50 text-purple-300'
-                        : 'bg-blue-100 text-blue-800'
+                    <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${
+                      lesson.completed 
+                        ? theme === 'dark' ? 'bg-green-800 text-green-200' : 'bg-green-100 text-green-800'
+                        : theme === 'dark' ? 'bg-purple-900/50 text-purple-300' : 'bg-blue-100 text-blue-800'
                       }`}>
-                      <span className="text-lg font-semibold">{index + 1}</span>
+                      {lesson.completed ? (
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                      ) : (
+                        <span className="text-lg font-semibold">{index + 1}</span>
+                      )}
                     </div>
                     <div>
-                      <div className={`text-xs font-medium ${theme === 'dark'
-                        ? 'text-purple-400'
-                        : 'text-blue-600'
-                        }`}>
-                        Lesson {index + 1} of {lessonData.length}
+                      <div className="flex items-center">
+                        <div className={`text-xs font-medium ${theme === 'dark'
+                          ? 'text-purple-400'
+                          : 'text-blue-600'
+                          }`}>
+                          Lesson {index + 1} of {lessonData.length}
+                        </div>
+                        {lesson.completed && (
+                          <span className={`ml-2 px-2 py-0.5 text-xs rounded-full ${
+                            theme === 'dark' ? 'bg-green-800/50 text-green-300' : 'bg-green-100 text-green-800'
+                          }`}>
+                            Completed
+                          </span>
+                        )}
                       </div>
                       <h2 className={`text-xl font-medium ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
                         {lesson.title}
@@ -385,11 +467,14 @@ const Lessons: React.FC = () => {
 
                   <button
                     onClick={() => handleStartLearning(lesson.id, lesson)}
-                    className={`px-4 py-2 rounded-lg ${loadingLessonId === lesson.id
-                        ? theme === 'dark' ? 'bg-gray-700' : 'bg-gray-300'
-                        : theme === 'dark'
-                          ? 'bg-purple-600 hover:bg-purple-700'
-                          : 'bg-blue-600 hover:bg-blue-700'
+                    className={`px-4 py-2 rounded-lg ${
+                      lesson.completed 
+                        ? theme === 'dark' ? 'bg-green-600 hover:bg-green-700' : 'bg-green-600 hover:bg-green-700'
+                        : loadingLessonId === lesson.id
+                          ? theme === 'dark' ? 'bg-gray-700' : 'bg-gray-300'
+                          : theme === 'dark'
+                            ? 'bg-purple-600 hover:bg-purple-700'
+                            : 'bg-blue-600 hover:bg-blue-700'
                       } text-white focus:outline-none focus:ring-2 focus:ring-offset-2 ${theme === 'dark' ? 'focus:ring-purple-500' : 'focus:ring-blue-500'
                       } transition-colors duration-200`}
                     disabled={loadingLessonId === lesson.id}
@@ -404,11 +489,23 @@ const Lessons: React.FC = () => {
                       </span>
                     ) : (
                       <span className="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        Start Learning
+                        {lesson.completed ? (
+                          <>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                            Review Lesson
+                          </>
+                        ) : (
+                          <>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Start Learning
+                          </>
+                        )}
                       </span>
                     )}
                   </button>
@@ -446,8 +543,6 @@ const Lessons: React.FC = () => {
                   )}
                 </AnimatePresence>
               </div>
-
- 
             </motion.div>
           ))}
         </motion.div>
@@ -470,7 +565,7 @@ const Lessons: React.FC = () => {
           </motion.button>
 
           <span className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
-            {lessonData.length} lessons in this module
+            {completedLessonsCount}/{lessonData.length} lessons completed
           </span>
         </motion.div>
       </div>
