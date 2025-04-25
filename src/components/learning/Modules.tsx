@@ -104,14 +104,14 @@ const Modules: React.FC = () => {
         lessonData: moduleLessons,
         modulesData: modulesData,
         courseData: courseData
-      } 
+      },replace: true
     });
   };
 
   const navigateBackToCourse = () => {
     if (courseData) {
       navigate(`/course/${title}`, {
-        state: { courseData }
+        state: { courseData },replace: true
       });
     } else {
       navigate(`/course/${title}`);

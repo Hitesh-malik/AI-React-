@@ -192,7 +192,7 @@ const Lessons: React.FC = () => {
             lesson,
             lessonData: lessonData, // Pass all lessons data for back navigation
             modulesData: modulesData // Pass modules data if available
-          }
+          },replace: true
         });
         return;
       }
@@ -217,7 +217,7 @@ const Lessons: React.FC = () => {
             lesson,
             lessonData: lessonData,
             modulesData: modulesData
-          }
+          },replace: true
         });
       }
     } catch (error) {
@@ -230,7 +230,7 @@ const Lessons: React.FC = () => {
           lesson,
           lessonData: lessonData,
           modulesData: modulesData
-        }
+        },replace: true
       });
     } finally {
       setLoadingLessonId(null);
@@ -252,7 +252,7 @@ const Lessons: React.FC = () => {
       state: {
         modulesData,
         courseTitle: title
-      }
+      },replace: true
     });
   };
 

@@ -122,7 +122,8 @@ const Course: React.FC = () => {
       state: { 
         modulesData: courseData.modules,
         courseData: courseData // Pass the whole course data in case it's needed
-      } 
+      },
+      replace: true 
     });
   };
 

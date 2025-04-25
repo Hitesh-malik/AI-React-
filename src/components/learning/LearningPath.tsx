@@ -91,7 +91,7 @@ const LearningPath: React.FC = () => {
         // Store the entire course data including modules and lessons in state
         // This eliminates the need for additional API calls later
         navigate(`/course/${response.data.title}`, { 
-          state: { courseData: response.data } 
+          state: { courseData: response.data } , replace: true
         });
       } else {
         setError(response.error || 'Failed to generate learning path');
