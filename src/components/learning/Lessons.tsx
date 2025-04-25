@@ -327,7 +327,7 @@ const Lessons: React.FC = () => {
     <>
     <LoadingOverlay 
       isLoading={isLoadingLesson} 
-      message="Tutor is preparing this lesson..."
+
     />
     <motion.div
       className={`min-h-screen ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'} py-12`}
