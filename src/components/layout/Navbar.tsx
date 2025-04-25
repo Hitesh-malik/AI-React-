@@ -15,8 +15,7 @@ const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const { theme } = useTheme();
-  const { isAuthenticated, user } = useAuth();
-  console.log('Navbar rendered with theme:', theme, 'isAuthenticated:', isAuthenticated, 'user:', user);
+  const { isAuthenticated, user, logout } = useAuth();
 
   // Check viewport width on mount and resize
   useEffect(() => {
@@ -50,9 +49,8 @@ const Navbar: React.FC = () => {
   };
 
   // Close mobile menu (cross icon click)
-  const closeMobileMenu = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent event bubbling
-    console.log('Closing mobile menu');
+  const closeMobileMenu = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation(); // Prevent event bubbling if event exists
     setIsMenuOpen(false);
   };
 
@@ -136,7 +134,8 @@ const Navbar: React.FC = () => {
           <MobileMenu
             isAuthenticated={isAuthenticated}
             user={user}
-            onClose={closeMobileMenu}
+            onClose={() => closeMobileMenu()}
+            logout={logout} // Pass the logout function to MobileMenu
           />
         )}
       </AnimatePresence>

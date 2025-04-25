@@ -4,7 +4,6 @@ import { Link, NavLink } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from '../../../hooks/useTheme';
 import UserAvatar from './UserAvatar';
-import { useAuth } from '../../../context/AuthContext';
 
 interface NavItem {
   name: string;
@@ -17,12 +16,13 @@ interface MobileMenuProps {
   isAuthenticated: boolean;
   user: any | null;
   onClose: () => void;
+  logout: () => void; // Add logout function to props
 }
 
-const MobileMenu: React.FC<MobileMenuProps> = ({ isAuthenticated, user, onClose }) => {
+const MobileMenu: React.FC<MobileMenuProps> = ({ isAuthenticated, user, onClose, logout }) => {
   const { theme } = useTheme();
   const menuRef = useRef<HTMLDivElement>(null);
-  const { logout } = useAuth();
+
 
   // Define navigation links with authentication requirements
   const navLinks: NavItem[] = [
@@ -82,19 +82,11 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isAuthenticated, user, onClose 
   // Filter links based on authentication status
   const filteredLinks = navLinks.filter(link => !link.requiresAuth || isAuthenticated);
 
-  // Close menu when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        onClose();
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [onClose]);
+  // Handle sign out button click
+  const handleSignOut = () => {
+    logout(); // First logout the user
+    onClose(); // Then close the menu
+  };
 
   // Mobile menu animation variants
   const menuVariants = {
@@ -238,21 +230,18 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isAuthenticated, user, onClose 
                   : 'text-red-600 hover:text-red-500 hover:bg-gray-100/80'}
                 transition-colors duration-200
               `}
-              onClick={() => {
-                onClose();
-                logout();
-              }
-              }
+              onClick={handleSignOut} // Changed to use our new handler
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clipRule="evenodd" />
               </svg>
               Sign out
             </button>
-          </motion.div>
-        )}
-      </div>
-    </motion.div>
+          </motion.div>   
+        )
+        }
+      </div >
+    </motion.div >
   );
 };
 

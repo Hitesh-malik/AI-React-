@@ -3,6 +3,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 import { useNavigate } from 'react-router-dom';
 import authUtils from '../utils/authUtils';
 import apiService from '../api/apiService';
+import { showToast } from '../utils/toastUtils';
 
 // Define the type for user
 interface User {
@@ -54,16 +55,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   // Login function
   const login = async (username: string, password: string) => {
     try {
-      const response = await apiService.auth.login({ username, password });
-      console.log('Login Response:', response);
+      const response = await apiService.auth.login({ username, password });     
 
       if (response.success && response.data) {
         authUtils.setToken(response?.data?.token);
         authUtils.setUser(response?.data ?? {});
         setUser(response?.data ?? {});
         setIsAuthenticated(true);
+        showToast.success('Login successful!');
         return { success: true };
       } else {
+        showToast.error(response.error || 'Invalid credentials');
         return {
           success: false,
           message: response.error || 'Invalid credentials'
@@ -83,12 +85,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const response = await apiService.auth.signup(userData);
       console.log('singup Response:', response);
       if (response.success && response.data) {
+        showToast.success('Registration successful!');
         authUtils.setToken(response?.data?.token);
         authUtils.setUser(response?.data ?? {});
         setUser(response?.data ?? {});
         setIsAuthenticated(true);
         return { success: true };
       } else {
+        showToast.error(response.error || 'Registration failed');
         return {
           success: false,
           message: response.error || 'Registration failed'

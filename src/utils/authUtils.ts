@@ -103,7 +103,7 @@ const authUtils = {
    * @returns {Promise<boolean>} Promise resolving to true if logout was successful
    */
   async logout(): Promise<boolean> {
-    showToast.info('Logging out...');
+    showToast.info('See you soon! Successfully logged out');
     this.removeToken();
     return true;
   }

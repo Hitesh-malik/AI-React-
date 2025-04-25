@@ -10,7 +10,7 @@ function App() {
     <ThemeProvider>
       <RouterProvider router={router} />
       <Toaster
-        position="top-right"
+        position="top-center"
         toastOptions={{
           // Default options for all toasts
           duration: 5000,
