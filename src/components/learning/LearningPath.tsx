@@ -38,7 +38,7 @@ const suggestedSubjects = [
   "Web Development with React",
   "Spanish for Beginners",
   "Data Science with Python",
-  "Financial Investment Strategies"
+  "Full stack JavaScript Development",
 ];
 
 const LearningPath: React.FC = () => {
@@ -187,6 +187,7 @@ const LearningPath: React.FC = () => {
               <div className="relative">
                 <textarea
                   id="subject"
+                  disabled={creatingPath}
                   value={selectedSubject}
                   onChange={handleTextareaChange}
                   placeholder="Ex: Introduction to machine learning with Python focused on neural networks and deep learning"
@@ -253,6 +254,7 @@ const LearningPath: React.FC = () => {
             {suggestedSubjects.map((subject, index) => (
               <motion.button
                 key={index}
+                disabled={creatingPath}
                 onClick={() => handleSuggestionClick(subject)}
                 className={`p-3 text-left rounded-md ${
                   theme === 'dark' 

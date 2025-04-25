@@ -3,7 +3,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../../hooks/useTheme';
 import apiService from '../../api/apiService';
-
+import LoadingOverlay from '../common/LoadingOverlay';
 interface Lesson {
   id: string;
   title: string;
@@ -61,6 +61,7 @@ const Lessons: React.FC = () => {
   const [completedLessonsCount, setCompletedLessonsCount] = useState<number>(0);
   const { theme } = useTheme();
   const [isDataInitialized, setIsDataInitialized] = useState<boolean>(false);
+  const [isLoadingLesson, setIsLoadingLesson] = useState<boolean>(false);
 
   // Get the current module title
   useEffect(() => {
@@ -129,10 +130,10 @@ const Lessons: React.FC = () => {
           completed: progressEntry ? progressEntry.completed : false
         };
       });
-      
+
       // Count completed lessons
       const completedCount = updatedLessonData.filter(lesson => lesson.completed).length;
-      
+
       setLessonData(updatedLessonData);
       setCompletedLessonsCount(completedCount);
     }
@@ -178,6 +179,8 @@ const Lessons: React.FC = () => {
   };
 
   const handleStartLearning = async (lessonId: string, lesson: Lesson) => {
+    // Show full page loading
+    setIsLoadingLesson(true);
     // Set the loading state for this specific lesson
     setLoadingLessonId(lessonId);
 
@@ -231,6 +234,7 @@ const Lessons: React.FC = () => {
       });
     } finally {
       setLoadingLessonId(null);
+      setIsLoadingLesson(false);
     }
   };
 
@@ -251,10 +255,10 @@ const Lessons: React.FC = () => {
       }
     });
   };
-  
+
   // Calculate progress percentage
-  const progressPercentage = lessonData.length > 0 
-    ? Math.round((completedLessonsCount / lessonData.length) * 100) 
+  const progressPercentage = lessonData.length > 0
+    ? Math.round((completedLessonsCount / lessonData.length) * 100)
     : 0;
 
   if (loading) {
@@ -320,6 +324,11 @@ const Lessons: React.FC = () => {
   }
 
   return (
+    <>
+    <LoadingOverlay 
+      isLoading={isLoadingLesson} 
+      message="Tutor is preparing this lesson..."
+    />
     <motion.div
       className={`min-h-screen ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'} py-12`}
       variants={containerVariants}
@@ -400,9 +409,8 @@ const Lessons: React.FC = () => {
               className={`${theme === 'dark'
                 ? 'bg-gray-800 border-gray-700'
                 : 'bg-white border-gray-200'
-                } rounded-xl shadow-md overflow-hidden border transition-all duration-200 ${
-                  lesson.completed ? 
-                  theme === 'dark' ? 'border-l-4 border-l-green-500' : 'border-l-4 border-l-green-500' 
+                } rounded-xl shadow-md overflow-hidden border transition-all duration-200 ${lesson.completed ?
+                  theme === 'dark' ? 'border-l-4 border-l-green-500' : 'border-l-4 border-l-green-500'
                   : ''
                 }`}
               whileHover="hover"
@@ -411,10 +419,9 @@ const Lessons: React.FC = () => {
               <div className={`p-5 ${activePreview === lesson.id ? 'border-b border-gray-700' : ''}`}>
                 <div className="flex justify-between items-start">
                   <div className="flex items-start space-x-4">
-                    <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${
-                      lesson.completed 
-                        ? theme === 'dark' ? 'bg-green-800 text-green-200' : 'bg-green-100 text-green-800'
-                        : theme === 'dark' ? 'bg-purple-900/50 text-purple-300' : 'bg-blue-100 text-blue-800'
+                    <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${lesson.completed
+                      ? theme === 'dark' ? 'bg-green-800 text-green-200' : 'bg-green-100 text-green-800'
+                      : theme === 'dark' ? 'bg-purple-900/50 text-purple-300' : 'bg-blue-100 text-blue-800'
                       }`}>
                       {lesson.completed ? (
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -433,9 +440,8 @@ const Lessons: React.FC = () => {
                           Lesson {index + 1} of {lessonData.length}
                         </div>
                         {lesson.completed && (
-                          <span className={`ml-2 px-2 py-0.5 text-xs rounded-full ${
-                            theme === 'dark' ? 'bg-green-800/50 text-green-300' : 'bg-green-100 text-green-800'
-                          }`}>
+                          <span className={`ml-2 px-2 py-0.5 text-xs rounded-full ${theme === 'dark' ? 'bg-green-800/50 text-green-300' : 'bg-green-100 text-green-800'
+                            }`}>
                             Completed
                           </span>
                         )}
@@ -467,17 +473,17 @@ const Lessons: React.FC = () => {
 
                   <button
                     onClick={() => handleStartLearning(lesson.id, lesson)}
-                    className={`px-4 py-2 rounded-lg ${
-                      lesson.completed 
-                        ? theme === 'dark' ? 'bg-green-600 hover:bg-green-700' : 'bg-green-600 hover:bg-green-700'
-                        : loadingLessonId === lesson.id
-                          ? theme === 'dark' ? 'bg-gray-700' : 'bg-gray-300'
-                          : theme === 'dark'
-                            ? 'bg-purple-600 hover:bg-purple-700'
-                            : 'bg-blue-600 hover:bg-blue-700'
+                    className={`px-4 py-2 rounded-lg ${lesson.completed
+                      ? theme === 'dark' ? 'bg-green-600 hover:bg-green-700' : 'bg-green-600 hover:bg-green-700'
+                      : loadingLessonId === lesson.id
+                        ? theme === 'dark' ? 'bg-gray-700' : 'bg-gray-300'
+                        : theme === 'dark'
+                          ? 'bg-purple-600 hover:bg-purple-700'
+                          : 'bg-blue-600 hover:bg-blue-700'
                       } text-white focus:outline-none focus:ring-2 focus:ring-offset-2 ${theme === 'dark' ? 'focus:ring-purple-500' : 'focus:ring-blue-500'
-                      } transition-colors duration-200`}
-                    disabled={loadingLessonId === lesson.id}
+                      } transition-colors duration-200 ${!!loadingLessonId ? 'cursor-not-allowed' : 'cursor-pointer'
+                      }`}
+                    disabled={!!loadingLessonId}
                   >
                     {loadingLessonId === lesson.id ? (
                       <span className="flex items-center">
@@ -570,6 +576,7 @@ const Lessons: React.FC = () => {
         </motion.div>
       </div>
     </motion.div>
+    </>
   );
 };
 
