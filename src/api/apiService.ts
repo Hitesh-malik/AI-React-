@@ -78,15 +78,20 @@ const apiService = {
         headers,
       });
 
-      
       if(response?.status === 401) {
-        // Handle unauthorized access (e.g., redirect to login) 
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('user');
-        // Optionally, you can show a message to the user
+        // Check if the current API call is for login or signup
+        const currentUrl = window.location.pathname;
+        const isAuthRoute = currentUrl.includes('/login') || currentUrl.includes('/signup');
         
-        window.location.href = '/login'; // Redirect to login page
-        
+        // Only proceed with logout and redirect if not on auth routes
+        if (!isAuthRoute) {
+          // Handle unauthorized access (e.g., redirect to login)
+          localStorage.removeItem('authToken');
+          localStorage.removeItem('user');
+          // Optionally, you can show a message to the user
+          
+          window.location.href = '/login'; // Redirect to login page
+        }
       }
       // Parse the JSON response
       const data = await response.json();
