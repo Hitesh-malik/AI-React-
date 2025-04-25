@@ -41,7 +41,8 @@ const endpoints = {
     getLessons: (moduleId: string) => `${config.API_BASE_URL}/courses/modules/${moduleId}/lessons`,
     getLessonsById: (lessonId: string) => `${config.API_BASE_URL}/courses/lessons/${lessonId}`,
     completeLesson: (lessonId: string) => `${config.API_BASE_URL}/courses/lessons/${lessonId}/complete`,
-    userProgress: () =>`${config.API_BASE_URL}/courses/progress`
+    userProgress: () =>`${config.API_BASE_URL}/courses/progress`,
+    userDashboard: () =>`${config.API_BASE_URL}/courses/user-dashboard`
   },
 };
 

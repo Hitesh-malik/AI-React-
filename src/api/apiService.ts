@@ -274,6 +274,9 @@ const apiService = {
     userProgress: async (): Promise<ApiResponse<LessonData>> => {
       return apiService.fetchAPI(endpoints.aiCourses.userProgress());
     },
+    userDashboard: async (): Promise<ApiResponse<LessonData>> => {
+      return apiService.fetchAPI(endpoints.aiCourses.userDashboard());
+    },
 
   },
 };
