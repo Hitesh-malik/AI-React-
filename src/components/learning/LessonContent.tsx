@@ -10,6 +10,7 @@ import apiService from '../../api/apiService'; // Import the apiService
 import ContentSection from './ContentSection';
 import QuizSection from './QuizSection';
 import LessonTabs from './LessonTabs';
+import { showToast } from '../../utils/toastUtils';
 
 interface LocationState {
   lesson: Lesson;
@@ -104,7 +105,7 @@ const LessonContent: React.FC = () => {
       
       if (response.success) {
         // Show success message
-        alert("Lesson completed successfully!");
+        showToast.success("Lesson completed successfully!");
         
         // Navigate back to lessons page with the data preserved
         navigateBackToLessons();
