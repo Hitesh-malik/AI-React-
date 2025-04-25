@@ -1,5 +1,6 @@
 // src/utils/authUtils.ts
 import apiService from '../api/apiService';
+import { showToast } from './toastUtils';
 
 interface AuthUser {
   id: string;
@@ -102,21 +103,9 @@ const authUtils = {
    * @returns {Promise<boolean>} Promise resolving to true if logout was successful
    */
   async logout(): Promise<boolean> {
-    try {
-      // Call logout API if user is logged in
-      if (this.isLoggedIn()) {
-        await apiService.auth.logout();
-      }
-      
-      // Clear auth data regardless of API response
-      this.removeToken();
-      return true;
-    } catch (error) {
-      console.error('Error during logout:', error);
-      // Still remove token on error
-      this.removeToken();
-      return true;
-    }
+    showToast.info('Logging out...');
+    this.removeToken();
+    return true;
   }
 };
 

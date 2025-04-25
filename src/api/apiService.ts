@@ -137,11 +137,7 @@ const apiService = {
       });
     },
 
-    logout: async (): Promise<ApiResponse<null>> => {
-      return apiService.fetchAPI(endpoints.auth.logout, {
-        method: 'POST',
-      });
-    },
+    
 
     forgotPassword: async (email: string): Promise<ApiResponse<null>> => {
       return apiService.fetchAPI(endpoints.auth.forgotPassword, {
