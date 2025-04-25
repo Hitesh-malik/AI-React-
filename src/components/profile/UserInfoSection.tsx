@@ -10,11 +10,9 @@ const UserInfoSection: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   
   const [form, setForm] = useState({
-    name: user?.name || '',
+    name: user?.username || '',
     email: user?.email || '',
-    bio: user?.bio || '',
-    location: user?.location || '',
-    website: user?.website || '',
+    username: user?.username || '',
     avatar: user?.avatar || ''
   });
   
@@ -44,7 +42,7 @@ const UserInfoSection: React.FC = () => {
   };
 
   // Handle form input changes
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setForm(prev => ({ ...prev, [name]: value }));
   };
@@ -138,11 +136,11 @@ const UserInfoSection: React.FC = () => {
       initial="hidden"
       animate="visible"
       variants={containerVariants}
-      className="space-y-6"
+      className={`p-8 rounded-xl ${theme === 'dark' ? 'bg-gray-900' : 'bg-white'}`}
     >
-      <motion.div variants={itemVariants}>
-        <h2 className="text-2xl font-bold mb-4">Personal Information</h2>
-        <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} mb-6`}>
+      <motion.div variants={itemVariants} className="mb-6">
+        <h2 className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Personal Information</h2>
+        <p className={`mt-1 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
           Manage your personal information and how it is displayed
         </p>
       </motion.div>
@@ -150,90 +148,96 @@ const UserInfoSection: React.FC = () => {
       {/* Success and Error Messages */}
       {success && (
         <motion.div 
-          className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded"
+          className={`mb-6 p-4 rounded-lg flex items-center ${theme === 'dark' ? 'bg-green-900/20 text-green-400 border border-green-800/30' : 'bg-green-100 text-green-700 border border-green-400'}`}
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
         >
+          <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+          </svg>
           {success}
         </motion.div>
       )}
       
       {error && (
         <motion.div 
-          className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded"
+          className={`mb-6 p-4 rounded-lg flex items-center ${theme === 'dark' ? 'bg-red-900/20 text-red-400 border border-red-800/30' : 'bg-red-100 text-red-700 border border-red-400'}`}
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
         >
+          <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+          </svg>
           {error}
         </motion.div>
       )}
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-10">
         {/* Profile Picture Section */}
-        <motion.div variants={itemVariants} className="mb-8">
-          <label className="block text-sm font-medium mb-2">Profile Picture</label>
-          <div className="flex items-center">
-            {/* Profile Avatar */}
-            <div 
-              className="relative cursor-pointer group"
-              onClick={handleAvatarClick}
-            >
-              {form.avatar ? (
-                <div className="w-24 h-24 rounded-full overflow-hidden">
-                  <img 
-                    src={form.avatar} 
-                    alt={form.name || 'User'} 
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+        <motion.div variants={itemVariants} className="flex flex-col items-center space-y-4">
+          <label className={`block text-sm font-medium ${theme === 'dark' ? 'text-gray-400' : 'text-gray-700'}`}>Profile Picture</label>
+          <div 
+            className="relative cursor-pointer group"
+            onClick={handleAvatarClick}
+          >
+            <div className={`absolute inset-0 rounded-full bg-gradient-to-r from-violet-500 to-blue-500 opacity-70 blur-md transition-opacity group-hover:opacity-100`}></div>
+            
+            {form?.avatar ? (
+              <div className="relative w-36 h-36 rounded-full overflow-hidden border-4 border-gray-800">
+                <img 
+                  src={""} 
+                  alt={form.name || 'User'} 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            ) : (
+              <div className="relative w-36 h-36 rounded-full bg-gradient-to-br from-purple-600/80 to-blue-600/80 flex items-center justify-center text-white text-3xl font-bold border-4 border-gray-800">
+                {getUserInitials()}
+              </div>
+            )}
+            
+            {/* Change overlay */}
+            <div className={`
+              absolute inset-0 rounded-full flex flex-col items-center justify-center
+              bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity duration-200
+              ${isUploading ? 'opacity-100' : ''}
+            `}>
+              {isUploading ? (
+                <svg className="animate-spin h-8 w-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
               ) : (
-                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center text-white text-2xl font-bold">
-                  {getUserInitials()}
-                </div>
-              )}
-              
-              {/* Overlay for hover effect */}
-              <div className={`
-                absolute inset-0 rounded-full flex items-center justify-center
-                bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity
-                ${isUploading ? 'opacity-100' : ''}
-              `}>
-                {isUploading ? (
-                  <svg className="animate-spin h-8 w-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                ) : (
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
-                )}
-              </div>
-            </div>
-            
-            <div className="ml-5">
-              <h3 className="text-sm font-medium">Change Profile Picture</h3>
-              <p className={`text-xs ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
-                Click the avatar to upload a new image.<br />
-                JPG, PNG or GIF. Max size 5MB.
-              </p>
-              <input
-                type="file"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-                accept="image/*"
-                className="hidden"
-              />
+                  <span className="text-white text-sm font-medium mt-1">Change</span>
+                </>
+              )}
             </div>
           </div>
+          <p className={`text-xs max-w-[160px] text-center ${theme === 'dark' ? 'text-gray-500' : 'text-gray-500'}`}>
+            Click to upload a new image.<br />
+            JPG, PNG or GIF. Max 5MB.
+          </p>
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            accept="image/*"
+            className="hidden"
+          />
         </motion.div>
         
         {/* Form Fields */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="md:col-span-2 space-y-6">
           {/* Name Field */}
           <motion.div variants={itemVariants}>
-            <label htmlFor="name" className="block text-sm font-medium mb-2">Full Name</label>
+            <label htmlFor="name" className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-700'}`}>
+              Full Name
+            </label>
             <input
               type="text"
               id="name"
@@ -242,20 +246,54 @@ const UserInfoSection: React.FC = () => {
               onChange={handleChange}
               disabled={!isEditing}
               className={`
-                w-full rounded-md border-gray-300 shadow-sm
+                w-full rounded-lg px-4 py-3 border bg-opacity-10
                 ${theme === 'dark' 
-                  ? 'bg-gray-700 border-gray-600 text-white' 
-                  : 'bg-white border-gray-300 text-gray-900'
+                  ? 'bg-gray-800 border-gray-700 text-gray-200 focus:border-violet-500' 
+                  : 'bg-white border-gray-300 text-gray-900 focus:border-violet-500'
                 }
-                ${!isEditing ? 'opacity-75' : ''}
-                focus:ring-purple-500 focus:border-purple-500
+                ${!isEditing ? 'opacity-70' : ''}
+                focus:outline-none focus:ring-2 focus:ring-violet-500/30 transition duration-200
               `}
+              placeholder="John Doe"
             />
+          </motion.div>
+          
+          {/* Username Field */}
+          <motion.div variants={itemVariants}>
+            <label htmlFor="username" className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-700'}`}>
+              Username
+            </label>
+            <div className={`
+              w-full rounded-lg px-4 py-3 border bg-opacity-10 flex items-center
+              ${theme === 'dark' 
+                ? 'bg-gray-800 border-gray-700 text-gray-200 focus-within:border-violet-500' 
+                : 'bg-white border-gray-300 text-gray-900 focus-within:border-violet-500'
+              }
+              ${!isEditing ? 'opacity-70' : ''}
+              focus-within:outline-none focus-within:ring-2 focus-within:ring-violet-500/30 transition duration-200
+            `}>
+              <span className={`mr-1 ${theme === 'dark' ? 'text-gray-500' : 'text-gray-500'}`}>@</span>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                value={form.username}
+                onChange={handleChange}
+                disabled={!isEditing}
+                className={`
+                  flex-grow bg-transparent border-none p-0 focus:outline-none focus:ring-0
+                  ${theme === 'dark' ? 'text-gray-200' : 'text-gray-900'}
+                `}
+                placeholder="username"
+              />
+            </div>
           </motion.div>
           
           {/* Email Field */}
           <motion.div variants={itemVariants}>
-            <label htmlFor="email" className="block text-sm font-medium mb-2">Email Address</label>
+            <label htmlFor="email" className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-700'}`}>
+              Email Address
+            </label>
             <input
               type="email"
               id="email"
@@ -264,125 +302,68 @@ const UserInfoSection: React.FC = () => {
               onChange={handleChange}
               disabled={!isEditing}
               className={`
-                w-full rounded-md border-gray-300 shadow-sm
+                w-full rounded-lg px-4 py-3 border bg-opacity-10
                 ${theme === 'dark' 
-                  ? 'bg-gray-700 border-gray-600 text-white' 
-                  : 'bg-white border-gray-300 text-gray-900'
+                  ? 'bg-gray-800 border-gray-700 text-gray-200 focus:border-violet-500' 
+                  : 'bg-white border-gray-300 text-gray-900 focus:border-violet-500'
                 }
-                ${!isEditing ? 'opacity-75' : ''}
-                focus:ring-purple-500 focus:border-purple-500
+                ${!isEditing ? 'opacity-70' : ''}
+                focus:outline-none focus:ring-2 focus:ring-violet-500/30 transition duration-200
               `}
+              placeholder="john@example.com"
             />
           </motion.div>
           
-          {/* Location Field */}
-          <motion.div variants={itemVariants}>
-            <label htmlFor="location" className="block text-sm font-medium mb-2">Location</label>
-            <input
-              type="text"
-              id="location"
-              name="location"
-              value={form.location}
-              onChange={handleChange}
-              disabled={!isEditing}
-              placeholder="City, Country"
-              className={`
-                w-full rounded-md border-gray-300 shadow-sm
-                ${theme === 'dark' 
-                  ? 'bg-gray-700 border-gray-600 text-white' 
-                  : 'bg-white border-gray-300 text-gray-900'
-                }
-                ${!isEditing ? 'opacity-75' : ''}
-                focus:ring-purple-500 focus:border-purple-500
-              `}
-            />
-          </motion.div>
-          
-          {/* Website Field */}
-          <motion.div variants={itemVariants}>
-            <label htmlFor="website" className="block text-sm font-medium mb-2">Website</label>
-            <input
-              type="url"
-              id="website"
-              name="website"
-              value={form.website}
-              onChange={handleChange}
-              disabled={!isEditing}
-              placeholder="https://example.com"
-              className={`
-                w-full rounded-md border-gray-300 shadow-sm
-                ${theme === 'dark' 
-                  ? 'bg-gray-700 border-gray-600 text-white' 
-                  : 'bg-white border-gray-300 text-gray-900'
-                }
-                ${!isEditing ? 'opacity-75' : ''}
-                focus:ring-purple-500 focus:border-purple-500
-              `}
-            />
-          </motion.div>
-          
-          {/* Bio Field - Full Width */}
-          <motion.div variants={itemVariants} className="md:col-span-2">
-            <label htmlFor="bio" className="block text-sm font-medium mb-2">Bio</label>
-            <textarea
-              id="bio"
-              name="bio"
-              rows={4}
-              value={form.bio}
-              onChange={handleChange}
-              disabled={!isEditing}
-              placeholder="Tell us a little about yourself"
-              className={`
-                w-full rounded-md border-gray-300 shadow-sm
-                ${theme === 'dark' 
-                  ? 'bg-gray-700 border-gray-600 text-white' 
-                  : 'bg-white border-gray-300 text-gray-900'
-                }
-                ${!isEditing ? 'opacity-75' : ''}
-                focus:ring-purple-500 focus:border-purple-500
-              `}
-            />
-          </motion.div>
-        </div>
-        
-        {/* Form Actions */}
-        <motion.div 
-          variants={itemVariants}
-          className="flex justify-end space-x-3 mt-8"
-        >
-          {isEditing ? (
-            <>
+          {/* Form Actions */}
+          <motion.div 
+            variants={itemVariants}
+            className="flex justify-end space-x-3 mt-8 pt-4"
+          >
+            {isEditing ? (
+              <>
+                <button
+                  type="button"
+                  onClick={toggleEdit}
+                  className={`
+                    px-5 py-2.5 rounded-lg border text-sm font-medium transition-colors duration-200
+                    ${theme === 'dark'
+                      ? 'border-gray-700 text-gray-400 hover:bg-gray-800'
+                      : 'border-gray-300 text-gray-700 hover:bg-gray-100'
+                    }
+                  `}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className={`
+                    px-6 py-2.5 rounded-lg text-sm font-medium text-white 
+                    bg-gradient-to-r from-violet-600 to-blue-600 hover:from-violet-700 hover:to-blue-700
+                    transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5
+                  `}
+                >
+                  Save Changes
+                </button>
+              </>
+            ) : (
               <button
                 type="button"
                 onClick={toggleEdit}
                 className={`
-                  px-4 py-2 rounded-md border
-                  ${theme === 'dark'
-                    ? 'border-gray-600 text-gray-300 hover:bg-gray-700'
-                    : 'border-gray-300 text-gray-700 hover:bg-gray-100'
-                  }
-                  transition-colors
+                  px-6 py-2.5 rounded-lg text-sm font-medium text-white 
+                  bg-gradient-to-r from-violet-600 to-blue-600 hover:from-violet-700 hover:to-blue-700
+                  transition-all duration-200 shadow-md hover:shadow-lg
+                  flex items-center
                 `}
               >
-                Cancel
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                </svg>
+                Edit Profile
               </button>
-              <button
-                type="submit"
-                className="px-4 py-2 rounded-md bg-purple-600 text-white hover:bg-purple-700 transition-colors"
-              >
-                Save Changes
-              </button>
-            </>
-          ) : (
-            <button
-              type="button"
-              onClick={toggleEdit}
-              className="px-4 py-2 rounded-md bg-purple-600 text-white hover:bg-purple-700 transition-colors"
-            >
-              Edit Profile
-            </button>
-          )}
-        </motion.div>
+            )}
+          </motion.div>
+        </div>
       </form>
     </motion.div>
   );

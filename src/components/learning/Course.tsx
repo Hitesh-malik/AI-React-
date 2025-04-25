@@ -276,15 +276,6 @@ const Course: React.FC = () => {
             </div>
           </div>
 
-          {/* Progress Bar */}
-          <motion.div className="relative h-1 w-full bg-gray-200 dark:bg-gray-700">
-            <motion.div 
-              className={`absolute h-full ${theme === 'dark' ? 'bg-purple-500' : 'bg-blue-500'}`}
-              variants={progressBarVariants}
-              initial="hidden"
-              animate="visible"
-            />
-          </motion.div>
           
           <div className="p-6">
             <motion.div className="mb-6" variants={itemVariants}>
@@ -292,16 +283,7 @@ const Course: React.FC = () => {
                 <h2 className={`text-xl font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
                   Course Description
                 </h2>
-                {progressPercent > 0 && (
-                  <motion.span 
-                    className={`ml-auto text-sm ${theme === 'dark' ? 'text-purple-400' : 'text-blue-600'}`}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1 }}
-                  >
-                    {progressPercent}% complete
-                  </motion.span>
-                )}
+                 
               </div>
               <motion.p 
                 className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}

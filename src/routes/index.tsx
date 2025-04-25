@@ -18,6 +18,7 @@ import Course from '../components/learning/Course';
 import Modules from '../components/learning/Modules';
 import Lessons from '../components/learning/Lessons';
 import LessonContent from '../components/learning/LessonContent';
+import Contact from '../pages/Contact';
 
 // Root layout that provides the AuthProvider
 const Root = () => {
@@ -39,6 +40,7 @@ export const router = createBrowserRouter(
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
         <Route path="pricing" element={<Pricing />} />
+        <Route path="contact" element={<Contact />} />
         
         {/* Protected routes */}
         <Route element={<ProtectedRoute />}>

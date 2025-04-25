@@ -53,23 +53,6 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
         
-        <div className={`p-6 rounded-lg shadow-lg ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}>
-          <h2 className="text-xl font-semibold mb-4">Account Information</h2>
-          <div className="space-y-2">
-            <div className="grid grid-cols-3">
-              <span className={`${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>Username:</span>
-              <span className="col-span-2">{user?.username || 'N/A'}</span>
-            </div>
-            <div className="grid grid-cols-3">
-              <span className={`${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>Email:</span>
-              <span className="col-span-2">{user?.email || 'N/A'}</span>
-            </div>
-            <div className="grid grid-cols-3">
-              <span className={`${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>Role:</span>
-              <span className="col-span-2">Student</span>
-            </div>
-          </div>
-        </div>
       </motion.div>
     </div>
   );

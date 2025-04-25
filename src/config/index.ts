@@ -13,7 +13,7 @@ interface Config {
   const config: Config = {
     // Base URL for API calls
     API_BASE_URL: isDevelopment 
-      ? 'https://baskets-sharp-losses-themes.trycloudflare.com/api' // Development API URL
+      ? 'https://victory-victory-bookmark-practical.trycloudflare.com/api' // Development API URL
       : 'https://api.telusko.com/api', // Production API URL
     
     // Application information

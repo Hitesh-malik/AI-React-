@@ -77,7 +77,17 @@ const apiService = {
         ...options,
         headers,
       });
-     
+
+      
+      if(response?.status === 401) {
+        // Handle unauthorized access (e.g., redirect to login) 
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('user');
+        // Optionally, you can show a message to the user
+        
+        window.location.href = '/login'; // Redirect to login page
+        
+      }
       // Parse the JSON response
       const data = await response.json();
      

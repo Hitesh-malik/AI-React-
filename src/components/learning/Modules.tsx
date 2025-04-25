@@ -256,38 +256,7 @@ const Modules: React.FC = () => {
           </motion.div>
         )}
         
-        {/* Progress indicator */}
-        <motion.div 
-          className="mb-10"
-          variants={itemVariants}
-        >
-          <div className="flex justify-between items-center mb-2">
-            <h2 className={`text-lg font-medium ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-              Your Learning Journey
-            </h2>
-            <div className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
-              Select any module to begin
-            </div>
-          </div>
-          <div className={`relative h-2 ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-200'} rounded-full overflow-hidden`}>
-            <div className="absolute inset-0 flex">
-              {sortedModules.map((module, index) => (
-                <div 
-                  key={module.id}
-                  className={`h-full flex-1 ${
-                    index === 0 
-                      ? theme === 'dark' ? 'bg-purple-600' : 'bg-blue-600'
-                      : 'bg-transparent'
-                  } ${index > 0 ? 'border-l border-white/10' : ''}`}
-                ></div>
-              ))}
-            </div>
-          </div>
-          <div className="mt-2 flex justify-between">
-            <div className={`text-xs ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>Start</div>
-            <div className={`text-xs ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>Complete</div>
-          </div>
-        </motion.div>
+  
         
         {/* Modules grid */}
         <div className="mb-20">
