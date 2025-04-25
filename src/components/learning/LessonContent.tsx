@@ -92,10 +92,14 @@ const LessonContent: React.FC = () => {
     setError(null);
     
     try {
+      // Ensure quiz score is properly accessed and log it for debugging
+      const score = quizResult;
+      console.log("Sending quiz score to API:", score);
+      
       // Call the API to mark the lesson as complete, passing the quiz score if available
       const response = await apiService.aiCourses.completeLesson(
         lessonId,
-        quizResult?.score // Pass the quiz score if available
+        score
       );
       
       if (response.success) {
@@ -128,7 +132,7 @@ const LessonContent: React.FC = () => {
   };
 
   const handleQuizComplete = (result: QuizResult) => {
-    setQuizResult(result);
+    setQuizResult(result.percentage);
     
     // Log the quiz result but don't submit yet - we'll submit when the user completes the lesson
     console.log("Quiz completed with score:", result);
