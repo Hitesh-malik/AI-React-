@@ -5,16 +5,8 @@ import { motion } from 'framer-motion';
 import { useTheme } from '../../hooks/useTheme';
 import { useAuth } from '../../context/AuthContext';
 import apiService from '../../api/apiService';
+import LoadingOverlay from '../common/LoadingOverlay';
 
-interface CourseData {
-  id: string;
-  title: string;
-  description: string;
-  difficultyLevel: string | number;
-  createdAt: string;
-  aiGenerated?: boolean;
-  modules?: ModuleData[];
-}
 
 interface ModuleData {
   id: string;
@@ -136,6 +128,11 @@ const LearningPath: React.FC = () => {
   }
 
   return (
+    <>
+    <LoadingOverlay
+      isLoading={creatingPath} 
+      message="Tutor is preparing this lesson..."
+    />
     <motion.div 
       className={`min-h-screen ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'} py-8`}
       variants={containerVariants}
@@ -330,6 +327,8 @@ const LearningPath: React.FC = () => {
         </motion.div>
       </div>
     </motion.div>
+    </>
+    
   );
 };
 
