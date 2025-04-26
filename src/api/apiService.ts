@@ -278,6 +278,12 @@ const apiService = {
     userDashboard: async (): Promise<ApiResponse<LessonData>> => {
       return apiService.fetchAPI(endpoints.aiCourses.userDashboard());
     },
+    askAi: async (question: string): Promise<ApiResponse<CourseData>> => {
+      return apiService.fetchAPI(endpoints.aiCourses.askAi(), {
+        method: 'POST',
+        body: JSON.stringify({ question }),
+      });
+    },
 
   },
 };

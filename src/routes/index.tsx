@@ -19,6 +19,7 @@ import Modules from '../components/learning/Modules';
 import Lessons from '../components/learning/Lessons';
 import LessonContent from '../components/learning/LessonContent';
 import Contact from '../pages/Contact';
+import AskAi from '../components/learning/AskAi';
 
 // Root layout that provides the AuthProvider
 const Root = () => {
@@ -45,6 +46,7 @@ export const router = createBrowserRouter(
         {/* Protected routes */}
         <Route element={<ProtectedRoute />}>
           <Route path="generatepath" element={<LearningPath />} />
+          <Route path="askai" element={<AskAi />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="profile" element={<Profile />} />
           
