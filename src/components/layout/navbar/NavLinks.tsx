@@ -20,7 +20,7 @@ const NavLinks: React.FC = () => {
     { name: 'About', path: '/about', requiresAuth: false },
     { name: 'Contact', path: '/contact', requiresAuth: false },
     { name: 'Dashboard', path: '/dashboard', requiresAuth: true },
-    {name : "Pricing", path: "/pricing", requiresAuth: false},    
+    // {name : "Pricing", path: "/pricing", requiresAuth: false},    
     {name : "GeneratePath", path: "/GeneratePath", requiresAuth: true},
     {name : "AskAi", path: "/askai", requiresAuth: true},
   ];

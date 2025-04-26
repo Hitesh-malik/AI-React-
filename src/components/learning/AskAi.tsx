@@ -6,8 +6,7 @@ import { useAuth } from '../../context/AuthContext';
 import apiService from '../../api/apiService';
 import LoadingOverlay from '../common/LoadingOverlay';
 import ReactMarkdown from 'react-markdown';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { tomorrow, prism } from 'react-syntax-highlighter/dist/esm/styles/prism';
+ 
 
 interface ApiResponse {
   answer: string;
