@@ -70,21 +70,6 @@ const HeroSection: React.FC = () => {
               Telusko Tutor AI combines advanced artificial intelligence with expert educational content to create a truly personalized learning experience that adapts to your unique needs.
             </motion.p>
             
-            <motion.div variants={itemVariants}>
-              <a 
-                href="#features" 
-                className={`px-6 py-3 rounded-lg text-white font-medium ${
-                  theme === 'dark' 
-                    ? 'bg-purple-600 hover:bg-purple-700' 
-                    : 'bg-blue-600 hover:bg-blue-700'
-                } shadow-lg transition-all duration-200 inline-flex items-center`}
-              >
-                Explore Features
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clipRule="evenodd" />
-                </svg>
-              </a>
-            </motion.div>
           </div>
           
           <motion.div 

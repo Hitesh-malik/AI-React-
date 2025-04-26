@@ -28,7 +28,8 @@ const suggestedSubjects = [
   "Machine Learning Fundamentals",
   "Blockchain Technology",
   "Web Development with React",
-  "Spanish for Beginners",
+  "backend Development with Node.js",
+  "Mobile App Development with Flutter",
   "Data Science with Python",
   "Full stack JavaScript Development",
 ];

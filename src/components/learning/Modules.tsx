@@ -190,7 +190,7 @@ const Modules: React.FC = () => {
           className={`mb-10 pb-6 border-b ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'}`}
           variants={itemVariants}
         >
-          <button 
+          {/* <button 
             onClick={navigateBackToCourse}
             className={`inline-flex items-center mb-4 ${
               theme === 'dark' 
@@ -203,7 +203,7 @@ const Modules: React.FC = () => {
             </svg>
             Back to Course
           </button>
-          
+           */}
           <div className="flex flex-col md:flex-row md:items-end md:justify-between">
             <div>
               <h1 className={`text-3xl sm:text-4xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>

@@ -39,8 +39,7 @@ const Profile: React.FC = () => {
   const sections = [
     { id: 'profile', label: 'Personal Info', icon: 'user' },
     { id: 'security', label: 'Security', icon: 'shield' },
-    { id: 'preferences', label: 'Preferences', icon: 'settings' },
-    { id: 'notifications', label: 'Notifications', icon: 'bell' }
+
   ];
 
   // Icon mapping function

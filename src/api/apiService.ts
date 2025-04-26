@@ -81,6 +81,7 @@ const apiService = {
 
       if (response?.status === 401) {
         // Check if the current API call is for login or signup
+        console.log('Unauthorized access detected. Logging out...');
         showToast.error('Session expired. Please log in again.');
         const currentUrl = window.location.pathname;
         const isAuthRoute = currentUrl.includes('/login') || currentUrl.includes('/signup');
