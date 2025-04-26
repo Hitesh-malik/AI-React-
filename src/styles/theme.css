@@ -52,62 +52,76 @@
   --transition-normal: 0.2s ease;
 }
 
-/* Dark Theme Variables - Enhanced */
+/* Dark Theme Variables - Enhanced for better contrast and visual appeal */
 .dark {
-  --color-primary: #9f67ff;
-  --color-primary-light: #b794f4;
-  --color-primary-dark: #7c3aed;
+  /* Primary colors with better visibility in dark mode */
+  --color-primary: #a78bfa;         /* Brighter purple */
+  --color-primary-light: #c4b5fd;   /* Lighter purple for hover */
+  --color-primary-dark: #8b5cf6;    /* Deeper purple for active */
   
+  /* Secondary, success, warning colors with better visibility */
   --color-secondary: #38bdf8;
   --color-secondary-light: #7dd3fc;
   --color-secondary-dark: #0284c7;
   
-  --color-success: #34d399;
-  --color-warning: #fbbf24;
-  --color-error: #f87171;
-  --color-info: #60a5fa;
+  --color-success: #34d399;         /* Brighter green */
+  --color-warning: #fbbf24;         /* Brighter yellow */
+  --color-error: #f87171;           /* Brighter red */
+  --color-info: #60a5fa;            /* Brighter blue */
   
-  --color-text-primary: #f9fafb;
-  --color-text-secondary: #e5e7eb;
-  --color-text-tertiary: #d1d5db;
-  --color-text-disabled: #6b7280;
+  /* Text colors for better readability and reduced eye strain */
+  --color-text-primary: #f3f4f6;    /* Slightly off-white */
+  --color-text-secondary: #e5e7eb;  /* Light gray */
+  --color-text-tertiary: #d1d5db;   /* Medium gray */
+  --color-text-disabled: #6b7280;   /* Dark gray for disabled */
   
-  --color-bg-primary: #111827;
-  --color-bg-secondary: #1f2937;
-  --color-bg-tertiary: #374151;
-  --color-bg-accent: #0f172a;
+  /* Background colors with deep blue-black tones for a richer look */
+  --color-bg-primary: #131627;      /* Deep blue-black */
+  --color-bg-secondary: #1e2235;    /* Slightly lighter with purple undertone */
+  --color-bg-tertiary: #2a304d;     /* Even lighter for card backgrounds */
+  --color-bg-accent: #121f36;       /* Deep blue for accent areas */
   
-  --color-border: #374151;
-  --color-border-light: #1f2937;
-  --color-border-focus: #b794f4;
+  /* Border colors with better visibility */
+  --color-border: #2e3650;          /* More visible borders */
+  --color-border-light: #1e2235;    /* Subtle borders */
+  --color-border-focus: #b794f4;    /* Bright focus borders */
   
-  /* Shadow for dark mode - more subtle */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  /* Shadow for dark mode - more visible with purple/blue undertones */
+  --shadow-sm: 0 2px 3px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(10, 10, 35, 0.5), 0 2px 4px -1px rgba(10, 10, 35, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(10, 10, 35, 0.5), 0 4px 6px -2px rgba(10, 10, 35, 0.3);
   
-  /* Inputs & Buttons */
-  --input-bg: var(--color-bg-tertiary);
+  /* Inputs & Buttons - improved contrast */
+  --input-bg: rgba(42, 48, 77, 0.7);
   --input-border: var(--color-border);
   --input-text: var(--color-text-primary);
   --input-placeholder: var(--color-text-tertiary);
   --input-focus-border: var(--color-primary-light);
   
+  /* Button styles with better visibility */
   --button-primary-bg: var(--color-primary);
-  --button-primary-text: #111827;
+  --button-primary-text: #111827;      /* Dark text on light purple button */
   --button-primary-hover: var(--color-primary-light);
-  --button-secondary-bg: #374151;
+  --button-secondary-bg: #2a304d;
   --button-secondary-text: var(--color-text-primary);
-  --button-secondary-hover: #4b5563;
+  --button-secondary-hover: #3a4164;
 }
 
-/* Utility Classes for Theme Colors - Keep existing ones */
+/* Utility Classes for Theme Colors */
 .bg-theme-primary {
   background-color: var(--color-primary);
 }
 
 .bg-theme-secondary {
   background-color: var(--color-bg-secondary);
+}
+
+.bg-theme-tertiary {
+  background-color: var(--color-bg-tertiary);
+}
+
+.bg-theme-accent {
+  background-color: var(--color-bg-accent);
 }
 
 .text-theme-primary {
@@ -118,21 +132,12 @@
   color: var(--color-text-secondary);
 }
 
-.border-theme {
-  border-color: var(--color-border);
-}
-
-/* Additional utility classes */
-.bg-theme-tertiary {
-  background-color: var(--color-bg-tertiary);
-}
-
-.bg-theme-accent {
-  background-color: var(--color-bg-accent);
-}
-
 .text-theme-tertiary {
   color: var(--color-text-tertiary);
+}
+
+.border-theme {
+  border-color: var(--color-border);
 }
 
 /* Form controls */
@@ -169,10 +174,35 @@
   background-color: var(--button-secondary-hover);
 }
 
+/* Dark mode enhanced scrollbar - subtle improvement */
+.dark ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary-dark);
+}
+
 /* Smooth Transitions Between Themes */
 body, .theme-transition {
   transition: background-color 0.3s ease, 
               color 0.3s ease, 
               border-color 0.3s ease, 
               box-shadow 0.3s ease;
+}
+
+/* Adjust selection color based on theme */
+.dark ::selection {
+  background-color: var(--color-primary-dark);
+  color: white;
 }

@@ -178,7 +178,7 @@ const UserInfoSection: React.FC = () => {
           <label className={`block text-sm font-medium ${theme === 'dark' ? 'text-gray-400' : 'text-gray-700'}`}>Profile Picture</label>
           <div 
             className="relative cursor-pointer group"
-            onClick={handleAvatarClick}
+            // onClick={handleAvatarClick}
           >
             <div className={`absolute inset-0 rounded-full bg-gradient-to-r from-violet-500 to-blue-500 opacity-70 blur-md transition-opacity group-hover:opacity-100`}></div>
             
@@ -196,7 +196,7 @@ const UserInfoSection: React.FC = () => {
               </div>
             )}
             
-            {/* Change overlay */}
+            {/* Change overlay
             <div className={`
               absolute inset-0 rounded-full flex flex-col items-center justify-center
               bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity duration-200
@@ -216,7 +216,7 @@ const UserInfoSection: React.FC = () => {
                   <span className="text-white text-sm font-medium mt-1">Change</span>
                 </>
               )}
-            </div>
+            </div> */}
           </div>
           <p className={`text-xs max-w-[160px] text-center ${theme === 'dark' ? 'text-gray-500' : 'text-gray-500'}`}>
             Click to upload a new image.<br />

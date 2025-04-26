@@ -81,18 +81,15 @@ const apiService = {
 
       if (response?.status === 401) {
         // Check if the current API call is for login or signup
-        console.log('Unauthorized access detected. Logging out...');
-        showToast.error('Session expired. Please log in again.');
         const currentUrl = window.location.pathname;
         const isAuthRoute = currentUrl.includes('/login') || currentUrl.includes('/signup');
-
         // Only proceed with logout and redirect if not on auth routes
         if (!isAuthRoute) {
           // Handle unauthorized access (e.g., redirect to login)
+          showToast.error('Session expired. Please log in again.');
           localStorage.removeItem('authToken');
           localStorage.removeItem('user');
           // Optionally, you can show a message to the user
-
           window.location.href = '/login'; // Redirect to login page
         }
       }
