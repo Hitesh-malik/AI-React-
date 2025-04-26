@@ -161,10 +161,10 @@ const LearningPath: React.FC = () => {
         )}
 
         <motion.div 
-          className={`max-w-3xl mx-auto ${theme === 'dark' ? 'bg-gray-800 shadow-lg border border-gray-700' : 'bg-white shadow-xl'} rounded-xl overflow-hidden`}
+          className={`max-w-3xl mx-auto ${theme === 'dark' ? 'bg-gray-800 shadow-lg border border-gray-700' :  'bg-violet-100 text-violet-600'} rounded-xl overflow-hidden`}
           variants={itemVariants}
         >
-          <div className={`px-6 py-5 ${theme === 'dark' ? 'border-b border-gray-700 bg-gray-800/50' : 'border-b border-gray-200 bg-blue-50'}`}>
+          <div className={`px-6 py-5 ${theme === 'dark' ? 'border-b border-gray-700 bg-gray-800/50' : 'border-b border-gray-200 bg-violet-50'}`}>
             <h2 className={`text-2xl font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
               Create Your Learning Path
             </h2>
@@ -214,7 +214,7 @@ const LearningPath: React.FC = () => {
               className={`w-full px-6 py-3 border border-transparent text-base font-medium rounded-md ${
                 theme === 'dark' 
                   ? 'bg-purple-600 hover:bg-purple-700 focus:ring-purple-500' 
-                  : 'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500'
+                  : 'bg-purple-600 hover:bg-purple-700 focus:ring-purple-500'
               } text-white focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 shadow-md`}
               variants={itemVariants}
               whileHover={{ scale: 1.02 }}
@@ -284,7 +284,7 @@ const LearningPath: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className={`p-5 rounded-lg ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} shadow-md`}>
               <div className={`w-10 h-10 flex items-center justify-center rounded-full mb-4 ${
-                theme === 'dark' ? 'bg-purple-900/50 text-purple-300' : 'bg-blue-100 text-blue-600'
+                theme === 'dark' ? 'bg-purple-900/50 text-purple-300' : 'bg-purple-100 text-purple-600'
               }`}>
                 1
               </div>
@@ -298,7 +298,7 @@ const LearningPath: React.FC = () => {
             
             <div className={`p-5 rounded-lg ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} shadow-md`}>
               <div className={`w-10 h-10 flex items-center justify-center rounded-full mb-4 ${
-                theme === 'dark' ? 'bg-purple-900/50 text-purple-300' : 'bg-blue-100 text-blue-600'
+                theme === 'dark' ? 'bg-purple-900/50 text-purple-300' : 'bg-purple-100 text-purple-600'
               }`}>
                 2
               </div>
@@ -312,7 +312,7 @@ const LearningPath: React.FC = () => {
             
             <div className={`p-5 rounded-lg ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} shadow-md`}>
               <div className={`w-10 h-10 flex items-center justify-center rounded-full mb-4 ${
-                theme === 'dark' ? 'bg-purple-900/50 text-purple-300' : 'bg-blue-100 text-blue-600'
+                theme === 'dark' ? 'bg-purple-900/50 text-purple-300' : 'bg-purple-100 text-purple-600'
               }`}>
                 3
               </div>
