@@ -152,7 +152,7 @@ const ContactForm: React.FC = () => {
       animate="visible"
       variants={formVariants}
     >
-      <div className={`px-6 py-5 ${theme === 'dark' ? 'bg-gray-700' : 'bg-blue-50'} border-b ${theme === 'dark' ? 'border-gray-600' : 'border-gray-200'}`}>
+      <div className={`px-6 py-5 ${theme === 'dark' ? 'bg-gray-700' : 'bg-purple-50'} border-b ${theme === 'dark' ? 'border-gray-600' : 'border-gray-200'}`}>
         <h3 className={`text-2xl font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
           Send Us a Message
         </h3>
@@ -215,9 +215,9 @@ const ContactForm: React.FC = () => {
                 className={`w-full px-4 py-3 rounded-md ${
                   theme === 'dark'
                     ? 'bg-gray-700 border-gray-600 text-white focus:border-purple-500'
-                    : 'bg-white border-gray-300 text-gray-900 focus:border-blue-500'
+                    : 'bg-white border-gray-300 text-gray-900 focus:border-purple-500'
                 } focus:outline-none focus:ring-2 ${
-                  theme === 'dark' ? 'focus:ring-purple-500/50' : 'focus:ring-blue-500/50'
+                  theme === 'dark' ? 'focus:ring-purple-500/50' : 'focus:ring-purple-500/50'
                 } transition-colors border`}
                 placeholder="John Doe"
               />
@@ -243,9 +243,9 @@ const ContactForm: React.FC = () => {
                 className={`w-full px-4 py-3 rounded-md ${
                   theme === 'dark'
                     ? 'bg-gray-700 border-gray-600 text-white focus:border-purple-500'
-                    : 'bg-white border-gray-300 text-gray-900 focus:border-blue-500'
+                    : 'bg-white border-gray-300 text-gray-900 focus:border-purple-500'
                 } focus:outline-none focus:ring-2 ${
-                  theme === 'dark' ? 'focus:ring-purple-500/50' : 'focus:ring-blue-500/50'
+                  theme === 'dark' ? 'focus:ring-purple-500/50' : 'focus:ring-purple-500/50'
                 } transition-colors border`}
                 placeholder="john.doe@example.com"
               />
@@ -271,9 +271,9 @@ const ContactForm: React.FC = () => {
                 className={`w-full px-4 py-3 rounded-md ${
                   theme === 'dark'
                     ? 'bg-gray-700 border-gray-600 text-white focus:border-purple-500'
-                    : 'bg-white border-gray-300 text-gray-900 focus:border-blue-500'
+                    : 'bg-white border-gray-300 text-gray-900 focus:border-purple-500'
                 } focus:outline-none focus:ring-2 ${
-                  theme === 'dark' ? 'focus:ring-purple-500/50' : 'focus:ring-blue-500/50'
+                  theme === 'dark' ? 'focus:ring-purple-500/50' : 'focus:ring-purple-500/50'
                 } transition-colors border`}
                 placeholder="Question about Telusko Tutor AI"
               />
@@ -299,9 +299,9 @@ const ContactForm: React.FC = () => {
                 className={`w-full px-4 py-3 rounded-md ${
                   theme === 'dark'
                     ? 'bg-gray-700 border-gray-600 text-white focus:border-purple-500'
-                    : 'bg-white border-gray-300 text-gray-900 focus:border-blue-500'
+                    : 'bg-white border-gray-300 text-gray-900 focus:border-purple-500'
                 } focus:outline-none focus:ring-2 ${
-                  theme === 'dark' ? 'focus:ring-purple-500/50' : 'focus:ring-blue-500/50'
+                  theme === 'dark' ? 'focus:ring-purple-500/50' : 'focus:ring-purple-500/50'
                 } transition-colors border`}
                 placeholder="Please describe your question or feedback in detail..."
               />
@@ -318,7 +318,7 @@ const ContactForm: React.FC = () => {
                 className={`px-6 py-3 rounded-md text-white font-medium ${
                   theme === 'dark'
                     ? 'bg-purple-600 hover:bg-purple-700 focus:ring-purple-500'
-                    : 'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500'
+                    : 'bg-purple-600 hover:bg-purple-700 focus:ring-purple-500'
                 } focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors ${
                   isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
                 }`}

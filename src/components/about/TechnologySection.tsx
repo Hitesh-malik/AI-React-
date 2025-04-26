@@ -132,13 +132,13 @@ const TechnologySection: React.FC = () => {
           className={`mt-16 p-8 rounded-xl ${
             theme === 'dark' 
               ? 'bg-purple-900/20 border border-purple-800' 
-              : 'bg-blue-50 border border-blue-100'
+              : 'bg-purple-50 border border-purple-100'
           }`}
           variants={itemVariants}
         >
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="md:w-2/3 mb-6 md:mb-0 md:pr-8">
-              <h3 className={`text-2xl font-bold mb-4 ${theme === 'dark' ? 'text-purple-300' : 'text-blue-800'}`}>
+              <h3 className={`text-2xl font-bold mb-4 ${theme === 'dark' ? 'text-purple-300' : 'text-purple-800'}`}>
                 Technical Excellence
               </h3>
               <p className={theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}>
@@ -151,7 +151,7 @@ const TechnologySection: React.FC = () => {
                 className={`w-40 h-40 rounded-full flex items-center justify-center text-6xl ${
                   theme === 'dark' 
                     ? 'bg-purple-800/30 text-purple-300' 
-                    : 'bg-blue-100 text-blue-600'
+                    : 'bg-purple-100 text-purple-600'
                 }`}
                 animate={{ 
                   rotate: [0, 10, 0, -10, 0],

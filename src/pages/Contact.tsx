@@ -41,7 +41,7 @@ const Contact: React.FC = () => {
     >
       {/* Hero Section */}
       <motion.div 
-        className={`py-16 ${theme === 'dark' ? 'bg-gray-800' : 'bg-blue-50'}`}
+        className={`py-16 ${theme === 'dark' ? 'bg-gray-800' : 'bg-purple-50'}`}
         variants={sectionVariants}
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">

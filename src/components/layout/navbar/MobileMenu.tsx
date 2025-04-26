@@ -115,7 +115,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isAuthenticated, user, onClose,
 
   return (
     <motion.div
-      className={`md:hidden w-full ${theme === 'dark' ? 'bg-gray-900/95' : 'bg-white/95'} backdrop-blur-md shadow-lg`}
+      className={`lg:hidden w-full ${theme === 'dark' ? 'bg-gray-900/95' : 'bg-white/95'} backdrop-blur-md shadow-lg`}
       initial="hidden"
       animate="visible"
       exit="exit"

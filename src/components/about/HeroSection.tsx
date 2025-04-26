@@ -37,7 +37,7 @@ const HeroSection: React.FC = () => {
 
   return (
     <motion.section 
-      className={`relative overflow-hidden py-20 md:py-32 ${theme === 'dark' ? 'bg-gray-900' : 'bg-gradient-to-r from-blue-50 to-indigo-50'}`}
+      className={`relative overflow-hidden py-20 md:py-32 ${theme === 'dark' ? 'bg-gray-900' : 'bg-gradient-to-r from-purple-50 to-violet-50'}`}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}
@@ -58,7 +58,7 @@ const HeroSection: React.FC = () => {
               className={`text-4xl md:text-5xl font-bold mb-6 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}
               variants={itemVariants}
             >
-              <span className={`${theme === 'dark' ? 'text-purple-400' : 'text-blue-600'}`}>Telusko Tutor AI</span>
+              <span className={`${theme === 'dark' ? 'text-purple-400' : 'text-purple-600'}`}>Telusko Tutor AI</span>
               <br />
               <span>Revolutionizing Personalized Learning</span>
             </motion.h1>
@@ -79,8 +79,8 @@ const HeroSection: React.FC = () => {
             <div className={`relative rounded-2xl overflow-hidden shadow-2xl ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}>
               {/* Placeholder for AI Tutor visualization */}
               <div className="aspect-w-16 aspect-h-9">
-                <div className={`w-full h-full flex items-center justify-center ${theme === 'dark' ? 'bg-gray-800' : 'bg-blue-50'}`}>
-                  <svg xmlns="http://www.w3.org/2000/svg" className={`h-32 w-32 ${theme === 'dark' ? 'text-purple-500' : 'text-blue-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className={`w-full h-full flex items-center justify-center ${theme === 'dark' ? 'bg-gray-800' : 'bg-purple-50'}`}>
+                  <svg xmlns="http://www.w3.org/2000/svg" className={`h-32 w-32 ${theme === 'dark' ? 'text-purple-500' : 'text-purple-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                 </div>

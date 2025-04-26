@@ -64,12 +64,12 @@ const MissionSection: React.FC = () => {
         <div className="grid md:grid-cols-2 gap-8 mt-12">
           {/* Mission Card */}
           <motion.div 
-            className={`rounded-xl overflow-hidden shadow-lg ${theme === 'dark' ? 'bg-gray-700' : 'bg-blue-50'}`}
+            className={`rounded-xl overflow-hidden shadow-lg ${theme === 'dark' ? 'bg-gray-700' : 'bg-purple-50'}`}
             custom={0}
             variants={cardVariants}
           >
             <div className="p-8">
-              <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-6 ${theme === 'dark' ? 'bg-purple-900/50 text-purple-400' : 'bg-blue-100 text-blue-600'}`}>
+              <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-6 ${theme === 'dark' ? 'bg-purple-900/50 text-purple-400' : 'bg-purple-100 text-purple-600'}`}>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                 </svg>
@@ -80,19 +80,19 @@ const MissionSection: React.FC = () => {
               </p>
               <ul className={`space-y-3 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
                 <li className="flex items-start">
-                  <svg className={`h-6 w-6 mr-2 flex-shrink-0 ${theme === 'dark' ? 'text-purple-400' : 'text-blue-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className={`h-6 w-6 mr-2 flex-shrink-0 ${theme === 'dark' ? 'text-purple-400' : 'text-purple-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                   <span>Create accessible learning pathways for all students</span>
                 </li>
                 <li className="flex items-start">
-                  <svg className={`h-6 w-6 mr-2 flex-shrink-0 ${theme === 'dark' ? 'text-purple-400' : 'text-blue-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className={`h-6 w-6 mr-2 flex-shrink-0 ${theme === 'dark' ? 'text-purple-400' : 'text-purple-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                   <span>Personalize education to individual learning styles</span>
                 </li>
                 <li className="flex items-start">
-                  <svg className={`h-6 w-6 mr-2 flex-shrink-0 ${theme === 'dark' ? 'text-purple-400' : 'text-blue-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className={`h-6 w-6 mr-2 flex-shrink-0 ${theme === 'dark' ? 'text-purple-400' : 'text-purple-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                   <span>Bridge educational gaps with AI assistance</span>
@@ -103,12 +103,12 @@ const MissionSection: React.FC = () => {
 
           {/* Vision Card */}
           <motion.div 
-            className={`rounded-xl overflow-hidden shadow-lg ${theme === 'dark' ? 'bg-gray-700' : 'bg-indigo-50'}`}
+            className={`rounded-xl overflow-hidden shadow-lg ${theme === 'dark' ? 'bg-gray-700' : 'bg-violet-50'}`}
             custom={1}
             variants={cardVariants}
           >
             <div className="p-8">
-              <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-6 ${theme === 'dark' ? 'bg-purple-900/50 text-purple-400' : 'bg-indigo-100 text-indigo-600'}`}>
+              <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-6 ${theme === 'dark' ? 'bg-purple-900/50 text-purple-400' : 'bg-violet-100 text-violet-600'}`}>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.933 12.8a1 1 0 000-1.6L6.6 7.2A1 1 0 005 8v8a1 1 0 001.6.8l5.333-4zM19.933 12.8a1 1 0 000-1.6l-5.333-4A1 1 0 0013 8v8a1 1 0 001.6.8l5.333-4z" />
                 </svg>
@@ -119,19 +119,19 @@ const MissionSection: React.FC = () => {
               </p>
               <ul className={`space-y-3 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
                 <li className="flex items-start">
-                  <svg className={`h-6 w-6 mr-2 flex-shrink-0 ${theme === 'dark' ? 'text-purple-400' : 'text-indigo-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className={`h-6 w-6 mr-2 flex-shrink-0 ${theme === 'dark' ? 'text-purple-400' : 'text-violet-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
                   <span>AI tutors available to every student worldwide</span>
                 </li>
                 <li className="flex items-start">
-                  <svg className={`h-6 w-6 mr-2 flex-shrink-0 ${theme === 'dark' ? 'text-purple-400' : 'text-indigo-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className={`h-6 w-6 mr-2 flex-shrink-0 ${theme === 'dark' ? 'text-purple-400' : 'text-violet-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
                   <span>Transforming learning from passive to interactive</span>
                 </li>
                 <li className="flex items-start">
-                  <svg className={`h-6 w-6 mr-2 flex-shrink-0 ${theme === 'dark' ? 'text-purple-400' : 'text-indigo-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className={`h-6 w-6 mr-2 flex-shrink-0 ${theme === 'dark' ? 'text-purple-400' : 'text-violet-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
                   <span>Setting new standards for educational technology</span>

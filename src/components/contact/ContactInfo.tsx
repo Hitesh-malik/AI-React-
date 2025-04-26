@@ -37,7 +37,7 @@ const ContactInfo: React.FC = () => {
         className={`rounded-xl overflow-hidden shadow-lg ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}
         variants={itemVariants}
       >
-        <div className={`px-6 py-5 ${theme === 'dark' ? 'bg-gray-700' : 'bg-blue-50'} border-b ${theme === 'dark' ? 'border-gray-600' : 'border-gray-200'}`}>
+        <div className={`px-6 py-5 ${theme === 'dark' ? 'bg-gray-700' : 'bg-purple-50'} border-b ${theme === 'dark' ? 'border-gray-600' : 'border-gray-200'}`}>
           <h3 className={`text-xl font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
             Contact Information
           </h3>
@@ -50,7 +50,7 @@ const ContactInfo: React.FC = () => {
               <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${
                 theme === 'dark' 
                   ? 'bg-purple-900/30 text-purple-400' 
-                  : 'bg-blue-100 text-blue-600'
+                  : 'bg-purple-100 text-purple-600'
               }`}>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -65,7 +65,7 @@ const ContactInfo: React.FC = () => {
                   className={`text-base ${
                     theme === 'dark' 
                       ? 'text-white hover:text-purple-300' 
-                      : 'text-gray-900 hover:text-blue-600'
+                      : 'text-gray-900 hover:text-purple-600'
                   } transition-colors`}
                 >
                   support@teluskotutor.ai
@@ -78,7 +78,7 @@ const ContactInfo: React.FC = () => {
               <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${
                 theme === 'dark' 
                   ? 'bg-purple-900/30 text-purple-400' 
-                  : 'bg-blue-100 text-blue-600'
+                  : 'bg-purple-100 text-purple-600'
               }`}>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -93,7 +93,7 @@ const ContactInfo: React.FC = () => {
                   className={`text-base ${
                     theme === 'dark' 
                       ? 'text-white hover:text-purple-300' 
-                      : 'text-gray-900 hover:text-blue-600'
+                      : 'text-gray-900 hover:text-purple-600'
                   } transition-colors`}
                 >
                   +91 123 456 789
@@ -106,7 +106,7 @@ const ContactInfo: React.FC = () => {
               <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${
                 theme === 'dark' 
                   ? 'bg-purple-900/30 text-purple-400' 
-                  : 'bg-blue-100 text-blue-600'
+                  : 'bg-purple-100 text-purple-600'
               }`}>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
@@ -127,47 +127,12 @@ const ContactInfo: React.FC = () => {
         </div>
       </motion.div>
       
-      {/* Hours of Operation
-      <motion.div 
-        className={`rounded-xl overflow-hidden shadow-lg ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}
-        variants={itemVariants}
-      >
-        <div className={`px-6 py-5 ${theme === 'dark' ? 'bg-gray-700' : 'bg-blue-50'} border-b ${theme === 'dark' ? 'border-gray-600' : 'border-gray-200'}`}>
-          <h3 className={`text-xl font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-            Hours of Operation
-          </h3>
-        </div>
-        
-        <div className="p-6">
-          <ul className="space-y-3">
-            <li className="flex justify-between">
-              <span className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>Monday - Friday</span>
-              <span className={`font-medium ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>9:00 AM - 6:00 PM</span>
-            </li>
-            <li className="flex justify-between">
-              <span className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>Saturday</span>
-              <span className={`font-medium ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>10:00 AM - 4:00 PM</span>
-            </li>
-            <li className="flex justify-between">
-              <span className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>Sunday</span>
-              <span className={`font-medium ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Closed</span>
-            </li>
-          </ul>
-          
-          <div className={`mt-6 p-4 rounded-lg ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100'}`}>
-            <p className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-              <span className="font-medium">Note:</span> Online support through our chatbot is available 24/7.
-            </p>
-          </div>
-        </div>
-      </motion.div> */}
-      
       {/* Connect with us */}
       <motion.div 
         className={`rounded-xl overflow-hidden shadow-lg ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}
         variants={itemVariants}
       >
-        <div className={`px-6 py-5 ${theme === 'dark' ? 'bg-gray-700' : 'bg-blue-50'} border-b ${theme === 'dark' ? 'border-gray-600' : 'border-gray-200'}`}>
+        <div className={`px-6 py-5 ${theme === 'dark' ? 'bg-gray-700' : 'bg-purple-50'} border-b ${theme === 'dark' ? 'border-gray-600' : 'border-gray-200'}`}>
           <h3 className={`text-xl font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
             Connect With Us
           </h3>

@@ -1,75 +1,178 @@
 /* src/styles/theme.css */
-
-/* Theme Variables */
+/* Theme Variables with enhanced dark mode */
 :root {
-    /* Light Theme Colors */
-    --color-primary: #7c3aed;
-    --color-primary-light: #9f67ff;
-    --color-primary-dark: #5b21b6;
-    
-    --color-text-primary: #111827;
-    --color-text-secondary: #4b5563;
-    --color-text-tertiary: #6b7280;
-    
-    --color-bg-primary: #f9fafb;
-    --color-bg-secondary: #ffffff;
-    --color-bg-tertiary: #f3f4f6;
-    
-    --color-border: #e5e7eb;
-    
-    /* Shadow */
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    
-    /* Transition */
-    --transition-normal: 0.2s ease;
-  }
+  /* Light Theme Colors */
+  --color-primary: #7c3aed;
+  --color-primary-light: #9f67ff;
+  --color-primary-dark: #5b21b6;
   
-  /* Dark Theme Variables */
-  .dark {
-    --color-primary: #9f67ff;
-    --color-primary-light: #b794f4;
-    --color-primary-dark: #7c3aed;
-    
-    --color-text-primary: #f9fafb;
-    --color-text-secondary: #e5e7eb;
-    --color-text-tertiary: #d1d5db;
-    
-    --color-bg-primary: #111827;
-    --color-bg-secondary: #1f2937;
-    --color-bg-tertiary: #374151;
-    
-    --color-border: #374151;
-    
-    /* Shadow for dark mode */
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
-  }
+  --color-secondary: #0ea5e9;
+  --color-secondary-light: #38bdf8;
+  --color-secondary-dark: #0369a1;
   
-  /* Utility Classes for Theme Colors */
-  .bg-theme-primary {
-    background-color: var(--color-primary);
-  }
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-info: #3b82f6;
   
-  .bg-theme-secondary {
-    background-color: var(--color-bg-secondary);
-  }
+  --color-text-primary: #111827;
+  --color-text-secondary: #4b5563;
+  --color-text-tertiary: #6b7280;
+  --color-text-disabled: #9ca3af;
   
-  .text-theme-primary {
-    color: var(--color-text-primary);
-  }
+  --color-bg-primary: #f9fafb;
+  --color-bg-secondary: #ffffff;
+  --color-bg-tertiary: #f3f4f6;
+  --color-bg-accent: #f0f9ff;
   
-  .text-theme-secondary {
-    color: var(--color-text-secondary);
-  }
+  --color-border: #e5e7eb;
+  --color-border-light: #f3f4f6;
+  --color-border-focus: #9f67ff;
   
-  .border-theme {
-    border-color: var(--color-border);
-  }
+  /* Shadow */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   
-  /* Smooth Transitions Between Themes */
-  body, .theme-transition {
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-  }
+  /* Inputs & Buttons */
+  --input-bg: var(--color-bg-secondary);
+  --input-border: var(--color-border);
+  --input-text: var(--color-text-primary);
+  --input-placeholder: var(--color-text-tertiary);
+  --input-focus-border: var(--color-primary-light);
+  
+  --button-primary-bg: var(--color-primary);
+  --button-primary-text: white;
+  --button-primary-hover: var(--color-primary-dark);
+  --button-secondary-bg: #f3f4f6;
+  --button-secondary-text: var(--color-text-primary);
+  --button-secondary-hover: #e5e7eb;
+  
+  /* Transition */
+  --transition-normal: 0.2s ease;
+}
+
+/* Dark Theme Variables - Enhanced */
+.dark {
+  --color-primary: #9f67ff;
+  --color-primary-light: #b794f4;
+  --color-primary-dark: #7c3aed;
+  
+  --color-secondary: #38bdf8;
+  --color-secondary-light: #7dd3fc;
+  --color-secondary-dark: #0284c7;
+  
+  --color-success: #34d399;
+  --color-warning: #fbbf24;
+  --color-error: #f87171;
+  --color-info: #60a5fa;
+  
+  --color-text-primary: #f9fafb;
+  --color-text-secondary: #e5e7eb;
+  --color-text-tertiary: #d1d5db;
+  --color-text-disabled: #6b7280;
+  
+  --color-bg-primary: #111827;
+  --color-bg-secondary: #1f2937;
+  --color-bg-tertiary: #374151;
+  --color-bg-accent: #0f172a;
+  
+  --color-border: #374151;
+  --color-border-light: #1f2937;
+  --color-border-focus: #b794f4;
+  
+  /* Shadow for dark mode - more subtle */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  
+  /* Inputs & Buttons */
+  --input-bg: var(--color-bg-tertiary);
+  --input-border: var(--color-border);
+  --input-text: var(--color-text-primary);
+  --input-placeholder: var(--color-text-tertiary);
+  --input-focus-border: var(--color-primary-light);
+  
+  --button-primary-bg: var(--color-primary);
+  --button-primary-text: #111827;
+  --button-primary-hover: var(--color-primary-light);
+  --button-secondary-bg: #374151;
+  --button-secondary-text: var(--color-text-primary);
+  --button-secondary-hover: #4b5563;
+}
+
+/* Utility Classes for Theme Colors - Keep existing ones */
+.bg-theme-primary {
+  background-color: var(--color-primary);
+}
+
+.bg-theme-secondary {
+  background-color: var(--color-bg-secondary);
+}
+
+.text-theme-primary {
+  color: var(--color-text-primary);
+}
+
+.text-theme-secondary {
+  color: var(--color-text-secondary);
+}
+
+.border-theme {
+  border-color: var(--color-border);
+}
+
+/* Additional utility classes */
+.bg-theme-tertiary {
+  background-color: var(--color-bg-tertiary);
+}
+
+.bg-theme-accent {
+  background-color: var(--color-bg-accent);
+}
+
+.text-theme-tertiary {
+  color: var(--color-text-tertiary);
+}
+
+/* Form controls */
+.input-theme {
+  background-color: var(--input-bg);
+  border-color: var(--input-border);
+  color: var(--input-text);
+}
+
+.input-theme::placeholder {
+  color: var(--input-placeholder);
+}
+
+.input-theme:focus {
+  border-color: var(--input-focus-border);
+}
+
+/* Button styling */
+.btn-primary-theme {
+  background-color: var(--button-primary-bg);
+  color: var(--button-primary-text);
+}
+
+.btn-primary-theme:hover {
+  background-color: var(--button-primary-hover);
+}
+
+.btn-secondary-theme {
+  background-color: var(--button-secondary-bg);
+  color: var(--button-secondary-text);
+}
+
+.btn-secondary-theme:hover {
+  background-color: var(--button-secondary-hover);
+}
+
+/* Smooth Transitions Between Themes */
+body, .theme-transition {
+  transition: background-color 0.3s ease, 
+              color 0.3s ease, 
+              border-color 0.3s ease, 
+              box-shadow 0.3s ease;
+}

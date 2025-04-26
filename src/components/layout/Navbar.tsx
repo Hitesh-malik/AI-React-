@@ -80,12 +80,12 @@ const Navbar: React.FC = () => {
           <Logo />
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center">
+          <div className="hidden lg:flex items-center">
             <NavLinks />
           </div>
 
           {/* Right Side - Auth or User Menu */}
-          <div className="hidden md:flex items-center space-x-3">
+          <div className="hidden lg:flex items-center space-x-3">
             <ThemeToggle />
 
             {/* Auth Section */}
@@ -97,7 +97,7 @@ const Navbar: React.FC = () => {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="flex items-center md:hidden">
+          <div className="flex items-center lg:hidden">
             <ThemeToggle />
             {isMenuOpen ? (
               // Cross icon when menu is open

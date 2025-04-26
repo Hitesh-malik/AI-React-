@@ -87,7 +87,7 @@ const Faq: React.FC = () => {
               activeIndex === index 
                 ? theme === 'dark' 
                   ? 'bg-gray-700' 
-                  : 'bg-blue-50' 
+                  : 'bg-purple-50' 
                 : ''
             }`}
             onClick={() => toggleItem(index)}
@@ -136,12 +136,12 @@ const Faq: React.FC = () => {
         className={`mt-8 p-6 rounded-lg ${
           theme === 'dark' 
             ? 'bg-purple-900/20 border border-purple-800' 
-            : 'bg-blue-50 border border-blue-100'
+            : 'bg-purple-50 border border-purple-100'
         }`}
         variants={itemVariants}
       >
         <div className="text-center">
-          <h3 className={`text-lg font-medium mb-2 ${theme === 'dark' ? 'text-purple-300' : 'text-blue-800'}`}>
+          <h3 className={`text-lg font-medium mb-2 ${theme === 'dark' ? 'text-purple-300' : 'text-purple-800'}`}>
             Still have questions?
           </h3>
           <p className={`mb-4 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
@@ -152,9 +152,9 @@ const Faq: React.FC = () => {
             className={`inline-flex items-center px-4 py-2 rounded-md ${
               theme === 'dark'
                 ? 'bg-purple-600 hover:bg-purple-700 text-white' 
-                : 'bg-blue-600 hover:bg-blue-700 text-white'
+                : 'bg-purple-600 hover:bg-purple-700 text-white'
             } transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 ${
-              theme === 'dark' ? 'focus:ring-purple-500' : 'focus:ring-blue-500'
+              theme === 'dark' ? 'focus:ring-purple-500' : 'focus:ring-purple-500'
             }`}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
