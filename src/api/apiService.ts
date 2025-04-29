@@ -83,14 +83,20 @@ const apiService = {
         // Check if the current API call is for login or signup
         const currentUrl = window.location.pathname;
         const isAuthRoute = currentUrl.includes('/login') || currentUrl.includes('/signup');
+        
         // Only proceed with logout and redirect if not on auth routes
         if (!isAuthRoute) {
-          // Handle unauthorized access (e.g., redirect to login)
+          // Handle unauthorized access
           showToast.error('Session expired. Please log in again.');
+          
+          // Clear authentication data
           localStorage.removeItem('authToken');
           localStorage.removeItem('user');
-          // Optionally, you can show a message to the user
-          window.location.href = '/login'; // Redirect to login page
+          
+          // Add a delay before redirecting to allow the toast to be seen
+          setTimeout(() => {
+            window.location.href = '/login'; // Redirect after delay
+          }, 2000); // 2 second delay
         }
       }
       // Parse the JSON response
