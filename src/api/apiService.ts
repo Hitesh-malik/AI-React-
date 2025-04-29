@@ -62,6 +62,7 @@ const apiService = {
   ): Promise<ApiResponse<T>> {
     try {
       // Set default headers
+      console.log('Making API request to:', url, 'with options:', options);
       const headers = {
         'Content-Type': 'application/json',
         ...options.headers,
@@ -87,6 +88,7 @@ const apiService = {
         // Only proceed with logout and redirect if not on auth routes
         if (!isAuthRoute) {
           // Handle unauthorized access
+          console.error('Unauthorized access - redirecting to login');
           showToast.error('Session expired. Please log in again.');
           
           // Clear authentication data

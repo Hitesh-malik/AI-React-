@@ -187,9 +187,10 @@ const LearningPath: React.FC = () => {
                   disabled={true}
                   value={selectedSubject}
                   onChange={handleTextareaChange}
+                  
                   placeholder="You cannot type directly. Please select an option from below."
                   rows={4}
-                  className={`w-full px-4 py-3 ${
+                  className={`w-full px-4 py-3 cursor-not-allowed ${
                     theme === 'dark' 
                       ? 'bg-gray-700 border-gray-600 text-white focus:ring-purple-500 focus:border-purple-500' 
                       : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'

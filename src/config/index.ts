@@ -9,7 +9,7 @@ interface Config {
   
   // Set different configurations based on environment
   const isDevelopment = import.meta.env.MODE === 'development';
-  const localUrl = 'https://rouge-believes-suggested-hydrocodone.trycloudflare.com/api';
+  const localUrl = 'https://although-joshua-staying-monkey.trycloudflare.com/api';
   const productionUrl = 'https://api.telusko.com/api';
   const config: Config = {
     // Base URL for API calls
