@@ -1,4 +1,3 @@
-// src/components/auth/SignupForm.tsx
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -12,7 +11,7 @@ interface SignupFormProps {
     fullName: string;
     email: string;
     password: string;
-    codingLevel: string;
+    codingLevel: number; // Changed to number
   }) => Promise<void>;
   isSubmitting: boolean;
   generalError: string | null;
@@ -44,6 +43,13 @@ const SignupForm: React.FC<SignupFormProps> = ({
   }>({});
   const [loading, setLoading] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
+
+  // Map coding level string values to numerical values
+  const codingLevelValues = {
+    'beginner': 2,
+    'intermediate': 6,
+    'advanced': 10
+  };
 
   const validateForm = () => {
     const newErrors: {
@@ -95,7 +101,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
 
     // Coding level validation
     if (!codingLevel) {
-      newErrors.codingLevel = 'Please select your coding level';
+      newErrors.codingLevel = 'Please select your knowledge level';
     }
 
     // Terms validation
@@ -118,13 +124,17 @@ const SignupForm: React.FC<SignupFormProps> = ({
     setErrors({});
 
     try {
+      // Convert coding level from string to number using the mapping
+      const codingLevelNumber = codingLevel ? codingLevelValues[codingLevel as keyof typeof codingLevelValues] : 0;
+      console.log(codingLevelNumber,'coding value')
+      
       // Use the signup function from AuthContext
       const result = await signup({
         username,
         fullName,
         email,
         password,
-        codingLevel
+        knowledgeLevel: codingLevelNumber // Pass the numerical value instead of the string
       });
       
       if (result.success) {
@@ -245,9 +255,11 @@ const SignupForm: React.FC<SignupFormProps> = ({
 
         <motion.div variants={itemVariants} className="space-y-2">
           <label htmlFor="coding-level" className="block text-sm font-medium text-white">
-            Your Coding Level
+            Your Knowledge Level
           </label>
-           
+          {errors.codingLevel && (
+            <span className="text-xs text-red-300 block mt-1">{errors.codingLevel}</span>
+          )}
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <svg className="h-5 w-5 text-white opacity-70" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -275,9 +287,6 @@ const SignupForm: React.FC<SignupFormProps> = ({
               </svg>
             </div>
           </div>
-          {errors.codingLevel && (
-            <p className="mt-1 text-sm text-red-300">{errors.codingLevel}</p>
-          )}  
         </motion.div>
 
         <motion.div variants={itemVariants}>
