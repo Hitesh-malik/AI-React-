@@ -247,9 +247,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
           <label htmlFor="coding-level" className="block text-sm font-medium text-white">
             Your Coding Level
           </label>
-          {errors.codingLevel && (
-            <span className="text-xs text-red-300 block mt-1">{errors.codingLevel}</span>
-          )}
+           
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <svg className="h-5 w-5 text-white opacity-70" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -277,6 +275,9 @@ const SignupForm: React.FC<SignupFormProps> = ({
               </svg>
             </div>
           </div>
+          {errors.codingLevel && (
+            <p className="mt-1 text-sm text-red-300">{errors.codingLevel}</p>
+          )}  
         </motion.div>
 
         <motion.div variants={itemVariants}>
