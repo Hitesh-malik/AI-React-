@@ -12,6 +12,7 @@ interface SignupFormProps {
     fullName: string;
     email: string;
     password: string;
+    codingLevel: string;
   }) => Promise<void>;
   isSubmitting: boolean;
   generalError: string | null;
@@ -29,6 +30,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [codingLevel, setCodingLevel] = useState('');
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [errors, setErrors] = useState<{
     username?: string;
@@ -36,6 +38,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
     email?: string;
     password?: string;
     confirmPassword?: string;
+    codingLevel?: string;
     terms?: string;
     general?: string;
   }>({});
@@ -49,6 +52,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
       email?: string;
       password?: string;
       confirmPassword?: string;
+      codingLevel?: string;
       terms?: string;
     } = {};
 
@@ -81,12 +85,17 @@ const SignupForm: React.FC<SignupFormProps> = ({
     } else if (passwordStrength < 30) {
       newErrors.password = 'Password is too weak';
     }
-    console.log(confirmPassword,password ,"SDfsdfds")
+
     // Confirm password validation
     if (!confirmPassword) {
       newErrors.confirmPassword = 'Please confirm your password';
     } else if (confirmPassword !== password) {
       newErrors.confirmPassword = 'Passwords do not match';
+    }
+
+    // Coding level validation
+    if (!codingLevel) {
+      newErrors.codingLevel = 'Please select your coding level';
     }
 
     // Terms validation
@@ -114,7 +123,8 @@ const SignupForm: React.FC<SignupFormProps> = ({
         username,
         fullName,
         email,
-        password
+        password,
+        codingLevel
       });
       
       if (result.success) {
@@ -232,6 +242,42 @@ const SignupForm: React.FC<SignupFormProps> = ({
           }
           variants={itemVariants}
         />
+
+        <motion.div variants={itemVariants} className="space-y-2">
+          <label htmlFor="coding-level" className="block text-sm font-medium text-white">
+            Your Coding Level
+          </label>
+          {errors.codingLevel && (
+            <span className="text-xs text-red-300 block mt-1">{errors.codingLevel}</span>
+          )}
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg className="h-5 w-5 text-white opacity-70" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+              </svg>
+            </div>
+            <select
+              id="coding-level"
+              value={codingLevel}
+              onChange={(e) => setCodingLevel(e.target.value)}
+              className="block w-full pl-10 pr-10 py-3 bg-purple-800 bg-opacity-50 text-white rounded-lg appearance-none cursor-pointer focus:outline-none"
+              style={{ 
+                backgroundColor: 'rgba(91, 33, 182, 0.4)',
+                border: 'none'
+              }}
+            >
+              <option value="" disabled>Select your level</option>
+              <option value="beginner" className="bg-purple-900">Beginner</option>
+              <option value="intermediate" className="bg-purple-900">Intermediate</option>
+              <option value="advanced" className="bg-purple-900">Advanced</option>
+            </select>
+            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+              <svg className="h-5 w-5 text-white opacity-70" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+              </svg>
+            </div>
+          </div>
+        </motion.div>
 
         <motion.div variants={itemVariants}>
           <FormInput

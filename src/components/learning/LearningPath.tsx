@@ -184,10 +184,10 @@ const LearningPath: React.FC = () => {
               <div className="relative">
                 <textarea
                   id="subject"
-                  disabled={creatingPath}
+                  disabled={true}
                   value={selectedSubject}
                   onChange={handleTextareaChange}
-                  placeholder="Ex: Introduction to machine learning with Python focused on neural networks and deep learning"
+                  placeholder="You cannot type directly. Please select an option from below."
                   rows={4}
                   className={`w-full px-4 py-3 ${
                     theme === 'dark' 
